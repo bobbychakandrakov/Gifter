@@ -1,0 +1,25 @@
+.my-style{
+    background-color:#e74c3c;
+    color:#fff;
+}
+.my-style:hover{
+    background-color: #E95E50;
+}
+body {
+    background-image: url('../patterns/sativa.png');
+    background-repeat: repeat;
+}
+.col-centered{
+float: none;
+margin: 0 auto;
+margin-top: 5%;
+}
+
+a{
+    padding-left: 35%;
+    color:#e74c3c;
+}
+
+a:hover{
+    color: #e95e50;
+}

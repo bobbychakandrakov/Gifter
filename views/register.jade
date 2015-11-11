@@ -1,0 +1,37 @@
+doctype html
+html(lang='en')
+   head
+      meta(charset='utf-8')
+      title Register
+      meta(name='viewport', content='width=device-width, initial-scale=1.0')
+      // Loading Bootstrap
+      link(href='bootstrap.min.css', rel='stylesheet')
+      // Loading Flat UI
+      link(href='flat-ui.css', rel='stylesheet')
+      link(rel='stylesheet', type='text/css', href='style.css')
+      link(rel='shortcut icon', href='img/favicon.ico')
+   body
+      #wrapper
+         .container
+            .col-md-5.col-centered
+               .login-form
+                  .form-group
+                     input#register-name.form-control.login-field(type='text', value='', placeholder='Enter your name')
+                     label.login-field-icon.fui-user(for='register-name')
+                  .form-group
+                     input#register-pass.form-control.login-field(type='password', value='', placeholder='Password')
+                     label.login-field-icon.fui-lock(for='login-pass')
+                  .form-group
+                     input#register-confirm-pass.form-control.login-field(type='password', value='', placeholder='Confirm-password')
+                     label.login-field-icon.fui-lock(for='register-confirm-pass')
+                  .form-group
+                     input#register-mail.form-control.login-field(type='text', value='', placeholder='E-mail')
+                     label.login-field-icon.fui-mail(for='register-mail')
+                  a.btn.btn-lg.btn-block.my-style(href='#') Register
+         // /.container
+         // jQuery (necessary for Flat UI's JavaScript plugins)
+         script(src='jquery.min.js')
+         // Include all compiled plugins (below), or include individual files as needed
+         script(src='vendor/video.js')
+         script(src='flat-ui.min.js')
+
