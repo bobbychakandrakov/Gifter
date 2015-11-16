@@ -12,5 +12,9 @@ var app = angular.module('gifter',['ngResource','ngRoute'])
                 templateUrl : "templates/home.html",
                 controller:"homeCtrl"
             })
+            .when('/profile',{
+                templateUrl : "templates/editProfile.html",
+                controller:'editProfileCtrl'
+            })
             .otherwise({redirectTo:'/'});
     });

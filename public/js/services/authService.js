@@ -1,5 +1,6 @@
 app.factory('authService',function($location,$http,$rootScope){
     var baseUrl = 'http://localhost:8080/api/';
+    var userId = "";
     return {
         logIn: function(user , pass){
             $http({
@@ -9,7 +10,8 @@ app.factory('authService',function($location,$http,$rootScope){
                 data:'username='+user+'&password='+pass
             }).success(function(res){
                 if(res.success){
-                    $rootScope.isLogged = true;
+                    userId = res.id;
+                    console.log(userId);
                     sessionStorage.setItem('token',res.token);
                     sessionStorage.setItem('id',res.id);
                     sessionStorage.setItem('username',res.username);
@@ -36,18 +38,62 @@ app.factory('authService',function($location,$http,$rootScope){
         getCurrUser:function(){
             return sessionStorage.getItem('username');
         },
-        checkCurrUser:function(){
-            var token = sessionStorage.getItem('token');
+        updateProfile:function(user,pass,email){
             $http({
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded',token:token},
-                method: 'GET',
-                url: baseUrl+'me'
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                method: 'PUT',
+                url: baseUrl+'profile'+"/"+userId,
+                data:'username='+user+'&password='+pass+ '&email=' +email
             }).success(function(res){
                 if(res.success){
-                    return true;
+                    $location.path('/home');
+                }else{
+                    console.log('Error');
                 }
             });
-            return false;
+        },
+        updateUsername:function(user){
+            $http({
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                method: 'PUT',
+                url: baseUrl+'username'+"/"+userId,
+                data:'username='+user
+            }).success(function(res){
+                if(res.success){
+                    console.log('Changed!');
+                }else{
+                    console.log('Error');
+                }
+            });
+        },
+        updatePassword:function(pass){
+            $http({
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                method: 'PUT',
+                url: baseUrl+'password'+"/"+userId,
+                data:'password='+pass
+            }).success(function(res){
+                if(res.success){
+                    console.log('Changed!');
+                }else{
+                    console.log('Error');
+                }
+            });
+        },
+        updateEmail:function(email){
+            $http({
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                method: 'PUT',
+                url: baseUrl+'email'+"/"+userId,
+                data:'email='+email
+            }).success(function(res){
+                if(res.success){
+                    console.log('Changed!');
+                }else{
+                    console.log('Error');
+                }
+            });
         }
+
     }
 });

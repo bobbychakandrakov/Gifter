@@ -104,6 +104,110 @@ apiRoutes.get('/me', ensureAuthorized, function(req, res) {
         }
     });
 });
+apiRoutes.put('/profile/:id',function(req, res) {
+
+    User.findById(req.params.id, function(err, user) {
+        if (err)
+            res.send(err);
+        user.username = req.body.username;
+        user.email=req.body.email;
+        user.password=req.body.password;
+        // Save the beer and check for errors
+        user.save(function(err) {
+            if (err)
+                res.json(
+                    {
+                        success: false,
+                        data: "Error occured: " + err
+                    }
+                );
+
+            res.json({
+                    success: true
+
+                }
+            );
+        });
+    });
+});
+apiRoutes.put('/username/:id',function(req, res) {
+
+    User.findById(req.params.id, function(err, user) {
+        if (err)
+            res.send(err);
+        user.username = req.body.username;
+        user.email=user.email;
+        user.password=user.password;
+        // Save the beer and check for errors
+        user.save(function(err) {
+            if (err)
+                res.json(
+                    {
+                        success: false,
+                        data: "Error occured: " + err
+                    }
+                );
+
+            res.json({
+                    success: true
+
+                }
+            );
+        });
+    });
+});
+apiRoutes.put('/email/:id',function(req, res) {
+
+    User.findById(req.params.id, function(err, user) {
+        if (err)
+            res.send(err);
+        user.username = user.username;
+        user.email=req.body.email;
+        user.password=user.password;
+        // Save the beer and check for errors
+        user.save(function(err) {
+            if (err)
+                res.json(
+                    {
+                        success: false,
+                        data: "Error occured: " + err
+                    }
+                );
+
+            res.json({
+                    success: true
+
+                }
+            );
+        });
+    });
+});
+apiRoutes.put('/password/:id',function(req, res) {
+
+    User.findById(req.params.id, function(err, user) {
+        if (err)
+            res.send(err);
+        user.username = user.username;
+        user.email=user.email;
+        user.password=req.body.password;
+        // Save the beer and check for errors
+        user.save(function(err) {
+            if (err)
+                res.json(
+                    {
+                        success: false,
+                        data: "Error occured: " + err
+                    }
+                );
+
+            res.json({
+                    success: true
+
+                }
+            );
+        });
+    });
+});
 function ensureAuthorized(req, res, next) {
     var bearerToken;
     var bearerHeader = req.headers["authorization"];

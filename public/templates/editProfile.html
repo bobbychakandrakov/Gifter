@@ -1,0 +1,12 @@
+<div style="background-color: #EEE; height:100%">
+    <div ng-include="'templates/navbar.html'">
+    </div>
+    <h3 align="center">Update your profile</h3>
+    <div align="center" class="form-group">
+        <h4 id="errorChange"></h4>
+        <input type="text" value placeholder="Username" class="form-control" style="width: 300px;display: inline-block" id="new-username"/> <button class="btn btn-info" ng-click="updateUsername()">Change</button><br/><br/>
+        <input type="password" value placeholder="Password" class="form-control" style="width: 300px;display: inline-block" id="new-password"/> <button class="btn btn-info" ng-click="updatePassword()">Change</button><br/><br/>
+        <input type="text" value placeholder="Email" class="form-control" style="width: 300px;display: inline-block" id="new-email"/> <button class="btn btn-info" ng-click="updateEmail()">Change</button><br/><br/>
+        <button class="btn btn-block btn-lg btn-info"  style="width: 25%" ng-click="updateProfile()">Update all</button>
+    </div>
+</div>

@@ -16,7 +16,7 @@ app.controller('registerCtrl',['$scope','authService',function($scope,authServic
         if(user.length >= 6 && user.indexOf(' ') === -1){
             $("#userField").attr('class','login-field-icon fui-check');
         }else{
-            $("#userField").attr('class','login-field-icon fui-user');
+            $("#userField").attr('class','login-field-icon fui-cross');
         }
     };
 
@@ -25,7 +25,7 @@ app.controller('registerCtrl',['$scope','authService',function($scope,authServic
         if(pass.length >= 6 && pass.indexOf(' ') === -1){
             $("#passField").attr('class','login-field-icon fui-check');
         }else{
-            $("#passField").attr('class','login-field-icon fui-lock');
+            $("#passField").attr('class','login-field-icon fui-cross');
         }
     };
 
@@ -34,7 +34,7 @@ app.controller('registerCtrl',['$scope','authService',function($scope,authServic
         if(passConfirm.length >= 6 && passConfirm.indexOf(' ') === -1 && passConfirm === $('#register-pass').val()){
             $("#passConfirmField").attr('class','login-field-icon fui-check');
         }else{
-            $("#passConfirmField").attr('class','login-field-icon fui-lock');
+            $("#passConfirmField").attr('class','login-field-icon fui-cross');
         }
     };
 
@@ -43,8 +43,12 @@ app.controller('registerCtrl',['$scope','authService',function($scope,authServic
         if(mail.length >= 6 && mail.indexOf(' ') === -1 && validateEmail(mail)){
             $("#emailField").attr('class','login-field-icon fui-check');
         }else{
-            $("#emailField").attr('class','login-field-icon fui-mail');
+            $("#emailField").attr('class','login-field-icon fui-cross');
         }
+    };
+
+    $scope.isRegisterActive = function(){
+        return false;
     };
 
     function validateEmail(email) {
