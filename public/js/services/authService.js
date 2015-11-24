@@ -1,20 +1,20 @@
 app.factory('authService',function($location,$http,$rootScope){
-    var baseUrl = 'http://localhost:8080/api/';
+    const authUrl = 'http://localhost:8080/auth/',
+          apiUrl = 'http://localhost:8080/api/';
     var userId = "";
     return {
         logIn: function(user , pass){
             $http({
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
                 method: 'POST',
-                url: baseUrl+'login',
+                url: authUrl+'login',
                 data:'username='+user+'&password='+pass
             }).success(function(res){
                 if(res.success){
                     userId = res.id;
                     console.log(userId);
-                    sessionStorage.setItem('token',res.token);
+                    sessionStorage.setItem('gifter-access-token',res.token);
                     sessionStorage.setItem('id',res.id);
-                    sessionStorage.setItem('username',res.username);
                     $location.path('/home');
                 }else{
                     console.log("Not ok");
@@ -25,13 +25,15 @@ app.factory('authService',function($location,$http,$rootScope){
             $http({
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
                 method: 'POST',
-                url: baseUrl+'register',
+                url: authUrl+'register',
                 data:'username='+user+'&password='+pass+ '&email=' +email
             }).success(function(res){
                 if(res.success){
+                    console.log('Ok');
                     $location.path('/');
                 }else{
-                    $('#errorReg').text();
+                    console.log('Error');
+                    $('#errorReg').text(res.errCode);
                 }
             });
         },
@@ -40,9 +42,13 @@ app.factory('authService',function($location,$http,$rootScope){
         },
         updateProfile:function(user,pass,email){
             $http({
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                headers:
+                {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'gifter-access-token':sessionStorage.getItem('gifter-access-token')
+                },
                 method: 'PUT',
-                url: baseUrl+'profile'+"/"+userId,
+                url: apiUrl+'profile'+"/"+userId,
                 data:'username='+user+'&password='+pass+ '&email=' +email
             }).success(function(res){
                 if(res.success){
@@ -54,9 +60,13 @@ app.factory('authService',function($location,$http,$rootScope){
         },
         updateUsername:function(user){
             $http({
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                headers:
+                {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'gifter-access-token':sessionStorage.getItem('gifter-access-token')
+                },
                 method: 'PUT',
-                url: baseUrl+'username'+"/"+userId,
+                url: apiUrl+'username'+"/"+userId,
                 data:'username='+user
             }).success(function(res){
                 if(res.success){
@@ -68,9 +78,13 @@ app.factory('authService',function($location,$http,$rootScope){
         },
         updatePassword:function(pass){
             $http({
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                headers:
+                {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'gifter-access-token':sessionStorage.getItem('gifter-access-token')
+                },
                 method: 'PUT',
-                url: baseUrl+'password'+"/"+userId,
+                url: apiUrl+'password'+"/"+userId,
                 data:'password='+pass
             }).success(function(res){
                 if(res.success){
@@ -82,9 +96,13 @@ app.factory('authService',function($location,$http,$rootScope){
         },
         updateEmail:function(email){
             $http({
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                headers:
+                {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'gifter-access-token':sessionStorage.getItem('gifter-access-token')
+                },
                 method: 'PUT',
-                url: baseUrl+'email'+"/"+userId,
+                url: apiUrl+'email'+"/"+userId,
                 data:'email='+email
             }).success(function(res){
                 if(res.success){

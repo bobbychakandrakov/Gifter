@@ -1,4 +1,4 @@
-app.controller('registerCtrl',['$scope','authService',function($scope,authService){
+app.controller('registerCtrl',['$scope','authService',function($scope,authService,$location){
     document.title = 'Register';
     $scope.registerUser = function(){
         var user = $('#register-name').val(),

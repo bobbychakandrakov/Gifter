@@ -1,0 +1,20 @@
+<div style="background-color: #EEE; height:100%;" align="center">
+    <div ng-include="'templates/navbar.html'">
+    </div>
+    <h3 align="center">Add gift</h3>
+    <div class="alert alert-success" style="display: none;width: 50%;text-align: center" id="errorStat" align="center">
+        <strong>{{status}}!</strong> {{message}}
+    </div>
+    <div align="center" class="form-group">
+        <input type="text" value placeholder="Name" class="form-control input-style" id="gift-name"/>
+        <br><br>
+        <input type="text" value placeholder="Price" class="form-control input-style" id="gift-price"/>
+        <br><br>
+        <select class="form-control select select-primary" data-toggle="select" id="dropdown-person">
+            <option ng-repeat="person in people track by $index" value="{{person._id}}">{{person.name}}</option>
+        </select>
+        <br><br>
+        <button class="btn btn-block btn-lg btn-info my-style"  style="width: 150px;display: inline-block" ng-click="addGift()">Add</button>
+        <button class="btn btn-block btn-lg btn-info my-style"  style="width: 150px; display: inline-block;margin-top:0px" ng-click="cancel()">Cancel</button>
+    </div>
+</div>

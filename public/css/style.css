@@ -2,8 +2,19 @@
     background-color:#e74c3c;
     color:#fff;
 }
+.nav-style{
+    background-color:#e74c3c;
+    color:#fff;
+    border-color:#e74c3c;
+}
+a.nav-style:hover{
+    color:#E95E50;
+}
 .my-style:hover{
     background-color: #E95E50;
+}
+#user-change,#pass-change, #email-change,#update-all{
+    background-color: #e74c3c;
 }
 body {
     background-image: url('../patterns/sativa.png');
@@ -20,6 +31,51 @@ a{
     color:#e74c3c;
 }
 
-a:hover{
-    color: #e95e50;
+a:hover , .link-style:hover{
+    color: #CC4335;
+}
+
+#gifts:hover, #people:hover,#people:active, #profile:hover , #home:hover{
+    text-align: center;
+    color:white;
+}
+
+.navbar-inverse .navbar-toggle:hover:before, .navbar-inverse .navbar-toggle:focus:before {
+    color: white;
+}
+
+.navbar-inverse .navbar-collapse {
+    border-color: #CC4335;
+}
+
+.navbar-toggle{
+    height: 75px;
+}
+
+.my-btn{
+    height: 42px;
+}
+
+.input-style{
+    width: 300px;
+    display: inline-block;
+}
+
+.close{
+    display: inline-block;
+}
+
+th,td{
+    text-align: center;
+}
+
+span:hover{
+    cursor: hand;
+}
+.btn-primary{
+ background-color:#e74c3c;
+    border-color: #CC4335;
+}
+.btn-primary:hover{
+    background-color:#CC4335;
 }

@@ -6,7 +6,7 @@ app.controller('loginCtrl',['$scope','authService',function($scope,authService){
         if(user !== '' && pass !== ''){
             authService.logIn(user,pass);
         }else {
-            alert('Not ok');
+            console.log('Not ok');
         }
     }
 }]);

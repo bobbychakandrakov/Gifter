@@ -1,0 +1,14 @@
+<div style="background-color: #EEE; height:100%;" align="center">
+    <div ng-include="'templates/navbar.html'">
+    </div>
+    <h3 align="center">Add person</h3>
+    <div class="alert alert-success" style="display: none;width: 50%;text-align: center" id="errorStat" align="center">
+        <strong>{{status}}!</strong> {{message}}
+    </div>
+    <div align="center" class="form-group">
+        <input type="text" value placeholder="Name" class="form-control input-style" id="create-person"/>
+        <br><br>
+        <button class="btn btn-block btn-lg btn-info my-style"  style="width: 150px;display: inline-block" ng-click="addPerson()">Add</button>
+        <button class="btn btn-block btn-lg btn-info my-style"  style="width: 150px; display: inline-block;margin-top:0px" ng-click="cancel()">Cancel</button>
+    </div>
+</div>
