@@ -611,7 +611,7 @@ apiRoutes.delete('/person/:id',function(req, res)
 //===============Gifts=======================================
 apiRoutes.post('/gift/:id', function(req, res)
 {
-    Person.findById(req.params.id, function(err,person)
+    User.findOne({token:req.headers['gifter-access-token']}, function (err, user)
     {
         if (err)
         {
@@ -624,15 +624,12 @@ apiRoutes.post('/gift/:id', function(req, res)
                 }
             );
         }
-        if(person)
+        else
         {
-            var giftModel = new Gift();
-            giftModel.name = req.body.name;
-            giftModel.price = req.body.price;
-            giftModel.owner_id = req.params.id;
-            giftModel.x=req.body.x;
-            giftModel.y=req.body.y;
-            giftModel.save(function (err, gift)
+            if (user)
+            {
+
+                Person.findById(req.params.id, function(err,person)
                 {
                     if (err)
                     {
@@ -645,49 +642,80 @@ apiRoutes.post('/gift/:id', function(req, res)
                             }
                         );
                     }
+                    if(person)
+                    {
+                        var giftModel = new Gift();
+                        giftModel.name = req.body.name;
+                        giftModel.price = req.body.price;
+                        giftModel.owner_id = req.params.id;
+                        giftModel.x=req.body.x;
+                        giftModel.y=req.body.y;
+                        giftModel.ownerName=person.name;
+                        giftModel.username=user.username;
+                        giftModel.save(function (err, gift)
+                            {
+                                if (err)
+                                {
+                                    res.status(404);
+                                    res.json
+                                    (
+                                        {
+                                            success: false,
+                                            data: "Error occured: " + err
+                                        }
+                                    );
+                                }
+                                else
+                                {
+                                    gift.save(function (err, gift1)
+                                    {
+                                        if (err)
+                                        {
+                                            res.status(404);
+                                            res.json
+                                            (
+                                                {
+                                                    success: false,
+                                                    data: "Error occured: " + err
+                                                }
+                                            );
+                                        }
+                                        else
+                                        {
+                                            res.status(201);
+                                            res.json
+                                            (
+                                                {
+                                                    success: true
+                                                }
+                                            );
+                                        }
+
+                                    });
+                                }
+                            }
+                        );
+                    }
                     else
                     {
-                        gift.save(function (err, gift1)
-                        {
-                            if (err)
+                        res.status(404);
+                        res.json
+                        (
                             {
-                                res.status(404);
-                                res.json
-                                (
-                                    {
-                                        success: false,
-                                        data: "Error occured: " + err
-                                    }
-                                );
+                                success:false,
+                                data:"person cannot be found"
                             }
-                            else
-                            {
-                                res.status(201);
-                                res.json
-                                (
-                                    {
-                                        success: true
-                                    }
-                                );
-                            }
-
-                        });
+                        )
                     }
-                }
-            );
-        }
-        else
-        {
-            res.status(404);
-            res.json
-            (
-                {
-                    success:false,
-                    data:"person cannot be found"
-                }
-            )
-        }
-    });
+                });
+
+            }
+            else
+            {
+                success:false
+            }
+
+        }})
 });
 apiRoutes.put('/gift/:id',function(req, res)
 {
@@ -708,6 +736,9 @@ apiRoutes.put('/gift/:id',function(req, res)
         {
             gift.name = req.body.name;
             gift.price=req.body.price;
+            gift.x=req.body.x;
+            gift.y=req.body.y;
+            gift.owner_id=req.body.owner;
             gift.save(function(err)
             {
                 if (err)
@@ -728,7 +759,207 @@ apiRoutes.put('/gift/:id',function(req, res)
                         {
                             success: true,
                             name:gift.name,
-                            price:gift.price
+                            price:gift.price,
+                            x:gift.x,
+                            y:gift.y,
+                            owner:gift.owner_id
+                        }
+                    );
+                }
+            });
+        }
+    });
+});
+apiRoutes.put('/gift/name/:id',function(req, res)
+{
+    Gift.findById(req.params.id, function(err, gift)
+    {
+        if (err)
+        {
+            res.status(404);
+            res.json
+            (
+                {
+                    success:false,
+                    data:err
+                }
+            );
+        }
+        else
+        {
+            gift.name = req.body.name;
+            gift.save(function(err)
+            {
+                if (err)
+                {
+                    res.status(404);
+                    res.json
+                    (
+                        {
+                            success: false,
+                            data: "Error occured: " + err
+                        }
+                    );
+                }
+                else
+                {
+                    res.json
+                    (
+                        {
+                            success: true,
+                            name:gift.name,
+                            price:gift.price,
+                            x:gift.x,
+                            y:gift.y,
+                            owner:gift.owner_id
+                        }
+                    );
+                }
+            });
+        }
+    });
+});
+apiRoutes.put('/gift/owner/:id',function(req, res)
+{
+    Gift.findById(req.params.id, function(err, gift)
+    {
+        if (err)
+        {
+            res.status(404);
+            res.json
+            (
+                {
+                    success:false,
+                    data:err
+                }
+            );
+        }
+        else
+        {
+            gift.owner_id = req.body.owner;
+            gift.save(function(err)
+            {
+                if (err)
+                {
+                    res.status(404);
+                    res.json
+                    (
+                        {
+                            success: false,
+                            data: "Error occured: " + err
+                        }
+                    );
+                }
+                else
+                {
+                    res.json
+                    (
+                        {
+                            success: true,
+                            name:gift.name,
+                            price:gift.price,
+                            x:gift.x,
+                            y:gift.y,
+                            owner:gift.owner_id
+                        }
+                    );
+                }
+            });
+        }
+    });
+});
+apiRoutes.put('/gift/address/:id',function(req, res)
+{
+    Gift.findById(req.params.id, function(err, gift)
+    {
+        if (err)
+        {
+            res.status(404);
+            res.json
+            (
+                {
+                    success:false,
+                    data:err
+                }
+            );
+        }
+        else
+        {
+            gift.x = req.body.x;
+            gift.y = req.body.y;
+            gift.save(function(err)
+            {
+                if (err)
+                {
+                    res.status(404);
+                    res.json
+                    (
+                        {
+                            success: false,
+                            data: "Error occured: " + err
+                        }
+                    );
+                }
+                else
+                {
+                    res.json
+                    (
+                        {
+                            success: true,
+                            name:gift.name,
+                            price:gift.price,
+                            x:gift.x,
+                            y:gift.y,
+                            owner:gift.owner_id
+                        }
+                    );
+                }
+            });
+        }
+    });
+});
+apiRoutes.put('/gift/price/:id',function(req, res)
+{
+    Gift.findById(req.params.id, function(err, gift)
+    {
+        if (err)
+        {
+            res.status(404);
+            res.json
+            (
+                {
+                    success:false,
+                    data:err
+                }
+            );
+        }
+        else
+        {
+            gift.price = req.body.price;
+            gift.save(function(err)
+            {
+                if (err)
+                {
+                    res.status(404);
+                    res.json
+                    (
+                        {
+                            success: false,
+                            data: "Error occured: " + err
+                        }
+                    );
+                }
+                else
+                {
+                    res.json
+                    (
+                        {
+                            success: true,
+                            name:gift.name,
+                            price:gift.price,
+                            x:gift.x,
+                            y:gift.y,
+                            owner:gift.owner_id
                         }
                     );
                 }
@@ -797,7 +1028,9 @@ apiRoutes.get('/gifts/:id', function(req, res)
                             (
                                 {
                                     success: true,
-                                    gifts:gift
+                                    gifts:gift,
+                                    person:person.name
+
                                 }
                             );
                         }
@@ -871,6 +1104,80 @@ apiRoutes.get( '/gift/:id', function( req, res ) {
         }
     });
 });
+apiRoutes.get('/gifts', function(req, res)
+    {
+        User.findOne({token:req.headers['gifter-access-token']}, function (err, user)
+        {
+            if (err)
+            {
+                res.status(404);
+                res.json
+                (
+                    {
+                        success: false,
+                        data: "Error occured: " + err
+                    }
+                );
+            }
+            else
+            {
+                if (user)
+                {
+                    Gift.find({username:user.username}, function(err, gift)
+                        {
+                            if (err)
+                            {
+                                res.status(404);
+                                res.json(
+                                    {
+                                        success: false,
+                                        data: "Error occured: " + err
+                                    }
+                                );
+                            }
+                            else
+                            {
+                                if (gift)
+                                {
+                                    res.json
+                                    (
+                                        {
+                                            success: true,
+                                            gift:gift
+                                        }
+                                    );
+                                }
+                                else
+                                {
+                                    res.status(404);
+                                    res.json
+                                    (
+                                        {
+                                            success:false,
+                                            data:"No people for this user"
+                                        }
+                                    );
+                                }
+                            }
+                        }
+                    );
+                }
+                else
+                {
+                    res.status(404);
+                    res.json
+                    (
+                        {
+                            success: false
+                        }
+                    );
+                }
+            }
+        });
+    }
+);
+
+
 // start the server
 // =======================
 app.listen(port);

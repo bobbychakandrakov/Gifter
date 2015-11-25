@@ -10,11 +10,22 @@
         <br><br>
         <input type="text" value placeholder="Price" class="form-control input-style" id="gift-price"/>
         <br><br>
-        <select class="form-control select select-primary" data-toggle="select" id="dropdown-person">
-            <option ng-repeat="person in people track by $index" value="{{person._id}}">{{person.name}}</option>
-        </select>
+        <div  align="center" style="width: 300px;display: inline-block">
+            <select name="inverse-dropdown-searchfield" class="form-control select select-default mrs mbm" data-toggle="select" id="dropdown-person">
+                <option value="0" selected>Select person</option>
+                <option ng-repeat="person in people" value="{{person._id}}">{{person.name}}</option>
+            </select>
+        </div>
         <br><br>
         <button class="btn btn-block btn-lg btn-info my-style"  style="width: 150px;display: inline-block" ng-click="addGift()">Add</button>
         <button class="btn btn-block btn-lg btn-info my-style"  style="width: 150px; display: inline-block;margin-top:0px" ng-click="cancel()">Cancel</button>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        $('select[name="inverse-dropdown"], select[name="inverse-dropdown-optgroup"], select[name="inverse-dropdown-disabled"]').select2({dropdownCssClass: 'select-inverse-dropdown'});
+
+        $('select[name="searchfield"]').select2({dropdownCssClass: 'show-select-search'});
+        $('select[name="inverse-dropdown-searchfield"]').select2({dropdownCssClass: 'select-inverse-dropdown show-select-search'});
+    });
+</script>

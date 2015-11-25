@@ -1,5 +1,6 @@
 app.controller('addPersonCtrl',['$scope','peopleService','$location',function($scope,peopleService,$location){
     document.title = 'Add person';
+
     $scope.addPerson = function(){
         var name = $('#create-person').val();
         peopleService.createPerson(name,function(stat,message){

@@ -23,6 +23,14 @@ var GiftSchema = mongoose.model('Gift', new Schema({
     y:
     {
         type:String
+    },
+    username:
+    {
+        type:String
+    },
+    ownerName:
+    {
+        type:String
     }
 
 }));

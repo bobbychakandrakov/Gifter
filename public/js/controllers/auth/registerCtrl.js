@@ -1,5 +1,6 @@
 app.controller('registerCtrl',['$scope','authService',function($scope,authService,$location){
     document.title = 'Register';
+
     $scope.registerUser = function(){
         var user = $('#register-name').val(),
             pass = $('#register-pass').val(),
@@ -11,6 +12,7 @@ app.controller('registerCtrl',['$scope','authService',function($scope,authServic
             $('#errorReg').text("Please, insert username, password and e-mail correctly!");
         }
     };
+
     $scope.userNameChange = function () {
         var user = $('#register-name').val();
         if(user.length >= 6 && user.indexOf(' ') === -1){
