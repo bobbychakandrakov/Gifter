@@ -1,4 +1,5 @@
-app.controller('editGiftCtrl',['$scope','peopleService','$location','giftsService','$routeParams','$timeout',function($scope,peopleService,$location,giftsService,$routeParams,$timeout){
+app.controller('editGiftCtrl',['$scope','peopleService','$location','giftsService','$routeParams',function($scope,peopleService,$location,giftsService,$routeParams){
+
     document.title = 'Edit gift';
 
     var gift;
@@ -41,4 +42,5 @@ app.controller('editGiftCtrl',['$scope','peopleService','$location','giftsServic
             //Error message
         }
     };
+
 }]);

@@ -1,4 +1,5 @@
 app.controller('loginCtrl',['$scope','authService',function($scope,authService){
+
     document.title = 'Login';
 
     $scope.logIn = function(){
@@ -10,4 +11,5 @@ app.controller('loginCtrl',['$scope','authService',function($scope,authService){
             console.log('Not ok');
         }
     }
+
 }]);

@@ -50,10 +50,10 @@ publicRoutes.post('/login', function(req, res) {
                 res.json
                 (
                     {
-                    success : true,
-                    username: user.username,
-                    id:user.id,
-                    token: user.token
+                        success : true,
+                        username: user.username,
+                        id:user.id,
+                        token: user.token
                     }
                 );
             }

@@ -1,7 +1,5 @@
-/**
- * Created by QuadCore on 11/23/2015.
- */
-app.controller('peopleCtrl',['$scope','peopleService','$location',function($scope,peopleService,$location){
+app.controller('peopleCtrl',['$scope','peopleService','$location','$timeout',function($scope,peopleService,$location,$timeout){
+
     document.title = 'People';
 
     $scope.people = peopleService.getPeople().then(getData);
@@ -10,13 +8,22 @@ app.controller('peopleCtrl',['$scope','peopleService','$location',function($scop
         $scope.people = data.data.people;
     }
 
-    $scope.deletePerson = function (id,i) {
-        peopleService.deletePerson(id);
-        del(i);
+    $scope.showTable = function(){
+        return !($scope.people === undefined || $scope.people.length == 0);
     };
 
-    var del = function(i){
-        document.getElementById('peopleTable').deleteRow(i+1);
-        delete $scope.people[i];
+    $scope.showMessage = function(){
+        return !!($scope.people === undefined || $scope.people.length == 0);
     };
+
+    $timeout(function () {
+        $('.delete').click(function(e){
+            $(this).closest('tr').remove();
+        });
+    },1000);
+
+    $scope.deletePerson = function (id) {
+        peopleService.deletePerson(id);
+    };
+
 }]);

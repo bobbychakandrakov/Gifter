@@ -1,4 +1,5 @@
 app.controller('editPersonCtrl',['$scope','peopleService','$location','$routeParams',function($scope,peopleService,$location,$routeParams){
+
     document.title = 'Edit person';
 
     var id = $routeParams.id;
@@ -17,4 +18,5 @@ app.controller('editPersonCtrl',['$scope','peopleService','$location','$routePar
     $scope.cancel = function(){
         $location.path('/people');
     };
+
 }]);

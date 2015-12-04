@@ -1,5 +1,7 @@
 app.controller('editProfileCtrl',['$scope','authService',function($scope,authService){
+
     document.title = 'Edit profile';
+
     $scope.updateProfile = function(){
         var username =$('#new-username').val(),
             pass =$('#new-password').val(),
@@ -42,4 +44,5 @@ app.controller('editProfileCtrl',['$scope','authService',function($scope,authSer
         var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
         return re.test(email);
     }
+
 }]);

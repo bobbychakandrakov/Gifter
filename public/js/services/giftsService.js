@@ -4,7 +4,7 @@
 app.factory('giftsService',function($location,$http){
     const giftUrl = "http://localhost:8080/api/gift";
     return {
-        createGift: function(name,price,id){
+        createGift: function(name,price,id,x,y){
             $http({
                 headers:
                 {
@@ -13,7 +13,7 @@ app.factory('giftsService',function($location,$http){
                 },
                 method: 'POST',
                 url: giftUrl+'/'+id,
-                data:'name='+name+"&price="+price
+                data:'name='+name+"&price="+price+"&x="+x+"&y="+y
             }).success(function(res){
                 if(res.success){
                     console.log("Gift created!");
@@ -39,8 +39,22 @@ app.factory('giftsService',function($location,$http){
                 }
             });
         },
-        deleteGift: function () {
-
+        deleteGift: function (id) {
+            $http({
+                headers:
+                {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'gifter-access-token':sessionStorage.getItem('gifter-access-token')
+                },
+                method: 'DELETE',
+                url: giftUrl+'/'+id
+            }).success(function(res){
+                if(res.success){
+                    console.log("Gift deleted!");
+                }else{
+                    console.log("Gift delete ERROR!");
+                }
+            });
         },
         updateGift: function(name,price,id,owner){
             $http({
@@ -61,7 +75,20 @@ app.factory('giftsService',function($location,$http){
             });
         },
         getGifts: function(){
-
+            return $http({
+                headers:
+                {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'gifter-access-token':sessionStorage.getItem('gifter-access-token')
+                },
+                method: 'GET',
+                url: giftUrl+'s'
+            }).success(function(res){
+                if(res.success){
+                }else{
+                    console.log("Gift Creat ERROR!");
+                }
+            });
         },
         updateGiftName:function(id,name){
             $http({

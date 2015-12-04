@@ -1,4 +1,5 @@
 app.factory('authService',function($location,$http,$rootScope){
+
     const authUrl = 'http://localhost:8080/auth/',
           apiUrl = 'http://localhost:8080/api/';
     var userId = "";
@@ -36,9 +37,6 @@ app.factory('authService',function($location,$http,$rootScope){
                     $('#errorReg').text(res.errCode);
                 }
             });
-        },
-        getCurrUser:function(){
-            return sessionStorage.getItem('username');
         },
         updateProfile:function(user,pass,email){
             $http({

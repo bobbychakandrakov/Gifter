@@ -1,4 +1,4 @@
-<div style="background-color: #EEE; height:100%">
+<div style="background-color: #EEE; height:100%" ng-init="load()">
     <div ng-include="'templates/navbar.html'">
     </div>
     <h3 align="center">People</h3>
@@ -7,9 +7,9 @@
             <span class="fui-plus"></span> Add
         </a>
     </div>
-
     <div align="center">
-        <table class="table table-hover" id="peopleTable">
+        <h3 ng-show="showMessage()">No people</h3>
+        <table class="table table-hover" id="peopleTable" ng-show="showTable()">
             <thead>
                 <tr>
                     <th>Person name</th>
@@ -17,14 +17,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="person in people track by $index">
+                <tr ng-repeat="person in people">
                     <td ng-if="person.name">{{person.name}}</td>
                     <td ng-if="person.name">
                         <div class="btn-group">
                             <a class="btn btn-primary" href="#/person/{{person._id}}">
                                 <span class="fui-eye"></span>
                             </a>
-                            <a class="btn btn-primary" ng-click="deletePerson(person._id,$index)">
+                            <a class="btn btn-primary delete" ng-click="deletePerson(person._id)">
                                 <span class="fui-trash"></span>
                             </a>
                         </div>
