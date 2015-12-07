@@ -4,12 +4,20 @@ app.controller('addPersonCtrl',['$scope','peopleService','$location',function($s
 
     $scope.addPerson = function(){
         var name = $('#create-person').val();
-        peopleService.createPerson(name,function(stat,message){
-            $scope.status = stat;
-            $scope.message = message;
-        });
-        $('#errorStat').css('display','block');
-        $('#create-person').val('');
+        if(name === ""){
+            $('#errorStat').css('display','block');
+            $('#successStat').css('display','none');
+            $scope.stat = "Error";
+            $scope.message = "Please, enter name!";
+        }else{
+            peopleService.createPerson(name);
+            $('#successStat').css('display','block');
+            $('#errorStat').css('display','none');
+            $scope.stat = "Success";
+            $scope.message = "Person created!";
+            $('#create-person').val('');
+        }
+
     };
 
     $scope.cancel = function(){

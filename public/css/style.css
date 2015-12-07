@@ -41,7 +41,7 @@ a:hover , .link-style:hover{
     color: #CC4335;
 }
 
-#gifts:hover, #people:hover,#people:active, #profile:hover , #home:hover{
+#gifts:hover, #people:hover,#people:active, #profile:hover , #home:hover,#logout:hover{
     text-align: center;
     color:white;
 }
@@ -122,4 +122,28 @@ span:hover{
     position: absolute;
     top: 0;
     left: 4px;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus{
+    color:white;
+}
+
+.btn-info:hover, .btn-info.hover, .btn-info:focus, .btn-info:active, .btn-info.active, .open > .dropdown-toggle.btn-info{
+    background-color:#e74c3c;
+}
+
+.select-inverse-dropdown{
+    background-color:#e74c3c;
+}
+
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus{
+    color:white;
+}
+
+a:focus{
+    color:#e74c3c;
+}
+
+.select2-results-dept-0 .select2-result .select2-result-selectable .ng-binding .ng-scope .select2-highlighted:focus{
+    background-color:#e74c3c;
 }

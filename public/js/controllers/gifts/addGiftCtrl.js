@@ -3,7 +3,9 @@ app.controller('addGiftCtrl',['$scope','giftsService','$location','peopleService
     document.title = 'Add gift';
     $timeout(function(){
         var map;
-        var myCenter=new google.maps.LatLng(42.22851735620852,25.224609375);
+
+        var myCenter=new google.maps.LatLng(42.63345355842104,24.354286193847656);//42.22851735620852,25.224609375
+
         function initialize()
         {
             var mapProp = {
@@ -19,7 +21,9 @@ app.controller('addGiftCtrl',['$scope','giftsService','$location','peopleService
                 console.log("Lat: " + marker.getPosition().lat() + " and Lng " + marker.getPosition().lng());
             });
         }
+
         initialize();
+
         function placeMarker(location) {
             if ( marker ) {
                 marker.setPosition(location);
@@ -30,8 +34,6 @@ app.controller('addGiftCtrl',['$scope','giftsService','$location','peopleService
                 });
             }
         }
-        console.log(marker);
-        console.log("IN TIMEOUT!");
         google.maps.event.addDomListener(window, 'load', initialize);
     },1000);
 
@@ -40,14 +42,19 @@ app.controller('addGiftCtrl',['$scope','giftsService','$location','peopleService
         var personId = drop.options[drop.selectedIndex].value;
         var name =$('#gift-name').val(),
             price =$('#gift-price').val();
-        console.log(marker.getPosition().lng());
-        if(marker === undefined){
-            giftsService.createGift(name,price,personId);
-        }else{
+        if(name === "" || price === "" || marker === undefined){
+            $('#errorStat').css('display','block');
+            $('#successStat').css('display','none');
+            $scope.status = "Error";
+            $scope.message = "Please , enter information about the gift!";
+        }
+        else{
+            $('#successStat').css('display','block');
+            $('#errorStat').css('display','none');
+            $scope.status = "Success";
+            $scope.message = "Gift created!";
             giftsService.createGift(name,price,personId,marker.getPosition().lat(),marker.getPosition().lng());
         }
-
-
     };
 
     $scope.people = peopleService.getPeople().then(getData);

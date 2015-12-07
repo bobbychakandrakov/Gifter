@@ -3,7 +3,7 @@
     </div>
     <h3 align="center">Gifts</h3>
     <div style="margin-right: 10px" align="right">
-        <a href="#/add/gift" class="btn btn-success btn-lg" style="background-color: #e74c3c;">
+        <a href="/add/gift" class="btn btn-success btn-lg" style="background-color: #e74c3c;">
             <span class="fui-plus"></span> Add
         </a>
     </div>
@@ -15,7 +15,6 @@
                 <th>Name</th>
                 <th>Price</th>
                 <th>For</th>
-                <th>Operations</th>
             </tr>
             </thead>
             <tbody>
@@ -25,7 +24,7 @@
                 <td>{{gift.ownerName}}</td>
                 <td>
                     <div class="btn-group">
-                        <a class="btn btn-primary" href="#/gift/{{gift._id}}">
+                        <a class="btn btn-primary" href="/gift/{{gift._id}}">
                             <span class="fui-eye"></span>
                         </a>
                         <a class="btn btn-primary delete" ng-click="deleteGift(gift._id)">

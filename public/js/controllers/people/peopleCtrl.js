@@ -1,22 +1,25 @@
-app.controller('peopleCtrl',['$scope','peopleService','$location','$timeout',function($scope,peopleService,$location,$timeout){
+app.controller('peopleCtrl',['$scope','peopleService','$location',function($scope,peopleService,$location){
 
     document.title = 'People';
+
+    var len;
 
     $scope.people = peopleService.getPeople().then(getData);
 
     function getData(data){
         $scope.people = data.data.people;
+        len = $scope.people.length;
     }
 
     $scope.showTable = function(){
-        return !($scope.people === undefined || $scope.people.length == 0);
+        return !($scope.people === undefined || $scope.people.length == 0 || len == 0);
     };
 
     $scope.showMessage = function(){
-        return !!($scope.people === undefined || $scope.people.length == 0);
+        return !!($scope.people === undefined || $scope.people.length == 0 || len == 0);
     };
 
-    $timeout(function () {
+    setInterval(function () {
         $('.delete').click(function(e){
             $(this).closest('tr').remove();
         });
@@ -24,6 +27,7 @@ app.controller('peopleCtrl',['$scope','peopleService','$location','$timeout',fun
 
     $scope.deletePerson = function (id) {
         peopleService.deletePerson(id);
+        len--;
     };
 
 }]);

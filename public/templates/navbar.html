@@ -5,15 +5,21 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
                     <span class="sr-only">Toggle navigation</span>
                 </button>
-                <a class="navbar-brand" href="#/home" id="home">Gifter</a>
+                <a class="navbar-brand" href="/home" id="home">Gifter</a>
             </div>
             <div class="collapse navbar-collapse nav-style cl-effect-14" id="navbar-collapse-01">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#/gifts" id="gifts">Gifts</a></li>
-                    <li><a href="#/people" id="people">People</a></li>
-                    <li><a href="#/profile" id="profile">Profile</a></li>
+                    <li><a href="/gifts" id="gifts">Gifts</a></li>
+                    <li><a href="/people" id="people">People</a></li>
+                    <li><a href="/profile" id="profile">Profile</a></li>
+                    <li><a href="/" onclick="func()" id="logout"><span class="fui-exit"></span></a></li>
                 </ul>
             </div>
         </nav>
     </div>
 </div>
+<script>
+    function func(){
+        sessionStorage.clear();
+    }
+</script>

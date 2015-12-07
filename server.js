@@ -208,7 +208,7 @@ apiRoutes.put('/profile/:id',function(req, res)
     User.findById(req.params.id, function(err, user)
     {
         if (err)
-        {
+            {
             res.status(404);
             res.json
             (
@@ -226,6 +226,7 @@ apiRoutes.put('/profile/:id',function(req, res)
             user.save(function(err)
             {
                 if (err)
+                {
                     res.status(404);
                     res.json(
                         {
@@ -233,12 +234,17 @@ apiRoutes.put('/profile/:id',function(req, res)
                             data: "Error occured: " + err
                         }
                     );
-                res.json
-                (
-                    {
-                        success: true
-                    }
-                );
+                }
+                else
+                {
+                    res.json
+                    (
+                        {
+                            success: true
+                        }
+                    );
+                }
+
             });
         }
 
@@ -313,6 +319,7 @@ apiRoutes.put('/email/:id',function(req, res)
         user.save(function(err)
         {
             if (err)
+            {
                 res.status(404);
                 res.json
                 (
@@ -321,14 +328,20 @@ apiRoutes.put('/email/:id',function(req, res)
                         data: "Error occured: " + err
                     }
                 );
-
-            res.json
-            (
-                {
-                    success: true
-                }
-            );
             }
+            else
+            {
+                res.json
+                (
+                    {
+                        success: true
+                    }
+                );
+            }
+            }
+
+
+
         );
         }
     );
@@ -357,6 +370,7 @@ apiRoutes.put('/password/:id',function(req, res)
         user.save(function(err)
         {
             if (err)
+            {
                 res.status(404);
                 res.json
                 (
@@ -365,12 +379,17 @@ apiRoutes.put('/password/:id',function(req, res)
                         data: "Error occured: " + err
                     }
                 );
-            res.json
-            (
-                {
-                    success: true
-                }
-            );
+            }
+            else
+            {
+                res.json
+                (
+                    {
+                        success: true
+                    }
+                );
+            }
+
         }
         );
     }
@@ -1177,7 +1196,9 @@ apiRoutes.get('/gifts', function(req, res)
     }
 );
 
-
+app.get('*',function(req,res){
+    res.render('index.ejs');
+});
 // start the server
 // =======================
 app.listen(port);

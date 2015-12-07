@@ -3,7 +3,7 @@
     </div>
     <h3 align="center">People</h3>
     <div style="margin-right: 10px" align="right">
-        <a href="#/add/person" class="btn btn-success btn-lg" style="background-color: #e74c3c;">
+        <a href="/add/person" class="btn btn-success btn-lg" style="background-color: #e74c3c;">
             <span class="fui-plus"></span> Add
         </a>
     </div>
@@ -13,7 +13,6 @@
             <thead>
                 <tr>
                     <th>Person name</th>
-                    <th>Operations</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,7 +20,7 @@
                     <td ng-if="person.name">{{person.name}}</td>
                     <td ng-if="person.name">
                         <div class="btn-group">
-                            <a class="btn btn-primary" href="#/person/{{person._id}}">
+                            <a class="btn btn-primary" href="/person/{{person._id}}">
                                 <span class="fui-eye"></span>
                             </a>
                             <a class="btn btn-primary delete" ng-click="deletePerson(person._id)">

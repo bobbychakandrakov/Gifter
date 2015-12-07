@@ -39,6 +39,7 @@ app.factory('authService',function($location,$http,$rootScope){
             });
         },
         updateProfile:function(user,pass,email){
+            var id = sessionStorage.getItem('id');
             $http({
                 headers:
                 {
@@ -57,6 +58,7 @@ app.factory('authService',function($location,$http,$rootScope){
             });
         },
         updateUsername:function(user){
+            var id = sessionStorage.getItem('id');
             $http({
                 headers:
                 {
@@ -64,7 +66,7 @@ app.factory('authService',function($location,$http,$rootScope){
                     'gifter-access-token':sessionStorage.getItem('gifter-access-token')
                 },
                 method: 'PUT',
-                url: apiUrl+'username'+"/"+userId,
+                url: apiUrl+'username'+"/"+id,
                 data:'username='+user
             }).success(function(res){
                 if(res.success){
@@ -75,6 +77,7 @@ app.factory('authService',function($location,$http,$rootScope){
             });
         },
         updatePassword:function(pass){
+            var id = sessionStorage.getItem('id');
             $http({
                 headers:
                 {
@@ -82,7 +85,7 @@ app.factory('authService',function($location,$http,$rootScope){
                     'gifter-access-token':sessionStorage.getItem('gifter-access-token')
                 },
                 method: 'PUT',
-                url: apiUrl+'password'+"/"+userId,
+                url: apiUrl+'password'+"/"+id,
                 data:'password='+pass
             }).success(function(res){
                 if(res.success){
@@ -93,6 +96,7 @@ app.factory('authService',function($location,$http,$rootScope){
             });
         },
         updateEmail:function(email){
+            var id = sessionStorage.getItem('id');
             $http({
                 headers:
                 {
@@ -100,7 +104,7 @@ app.factory('authService',function($location,$http,$rootScope){
                     'gifter-access-token':sessionStorage.getItem('gifter-access-token')
                 },
                 method: 'PUT',
-                url: apiUrl+'email'+"/"+userId,
+                url: apiUrl+'email'+"/"+id,
                 data:'email='+email
             }).success(function(res){
                 if(res.success){

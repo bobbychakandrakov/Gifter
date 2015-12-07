@@ -9,7 +9,10 @@ app.controller('editProfileCtrl',['$scope','authService',function($scope,authSer
         if(username.length >= 6 && pass.length >= 6 && validateEmail(email)) {
             authService.updateProfile(username, pass, email);
         }else{
-            $('#errorChange').text("Please, fill the correct data!");
+            $('#errorStat').css('display','block');
+            $('#successStat').css('display','none');
+            $scope.status = "Error";
+            $scope.message = "Please , enter valid information about yourself!";
         }
     };
 

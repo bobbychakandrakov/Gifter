@@ -2,7 +2,9 @@
     <div ng-include="'templates/navbar.html'">
     </div>
     <h3 align="center">Add gift</h3>
-    <div class="alert alert-success" style="display: none;width: 50%;text-align: center" id="errorStat" align="center">
+    <div class="alert alert-success" style="display: none;width: 50%;text-align: center" id="successStat" align="center">
+        <strong>{{status}}!</strong> {{message}}
+    </div><div class="alert alert-danger" style="display: none;width: 50%;text-align: center" id="errorStat" align="center">
         <strong>{{status}}!</strong> {{message}}
     </div>
     <div align="center" class="form-group">

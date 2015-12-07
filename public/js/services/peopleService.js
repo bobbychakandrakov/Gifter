@@ -5,7 +5,7 @@ app.factory('peopleService', function($location,$http){
     const personUrl = 'http://localhost:8080/api/person',
         gifterToken='gifter-access-token';
     return {
-        createPerson: function(personName,call){
+        createPerson: function(personName){
             $http({
                 headers:
                 {
@@ -17,9 +17,9 @@ app.factory('peopleService', function($location,$http){
                 data:'name='+personName
             }).success(function(res){
                 if(res.success){
-                    call('Success',"Person created!");
+
                 }else{
-                    call('Error',"Person already exists!");
+
                 }
             });
         },

@@ -2,8 +2,11 @@
     <div ng-include="'templates/navbar.html'">
     </div>
     <h3 align="center">Add person</h3>
-    <div class="alert alert-success" style="display: none;width: 50%;text-align: center" id="errorStat" align="center">
-        <strong>{{status}}!</strong> {{message}}
+    <div class="alert alert-success" style="display: none;width: 50%;text-align: center" id="successStat" align="center">
+        <strong>{{stat}}!</strong> {{message}}
+    </div>
+    <div class="alert alert-danger" style="display: none;width: 50%;text-align: center" id="errorStat" align="center">
+        <strong>{{stat}}!</strong> {{message}}
     </div>
     <div align="center" class="form-group">
         <input type="text" value placeholder="Name" class="form-control input-style" id="create-person"/>
