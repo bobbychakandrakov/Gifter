@@ -47,7 +47,7 @@ app.factory('authService',function($location,$http,$rootScope){
                     'gifter-access-token':sessionStorage.getItem('gifter-access-token')
                 },
                 method: 'PUT',
-                url: apiUrl+'profile'+"/"+userId,
+                url: apiUrl+'profile'+"/"+id,
                 data:'username='+user+'&password='+pass+ '&email=' +email
             }).success(function(res){
                 if(res.success){

@@ -2,7 +2,9 @@
     <div ng-include="'templates/navbar.html'">
     </div>
     <h3 align="center">Edit gift</h3>
-    <div class="alert alert-success" style="display: none;width: 50%;text-align: center" id="errorStat" align="center">
+    <div class="alert alert-success" style="display: none;width: 50%;text-align: center" id="successStat" align="center">
+        <strong>{{status}}!</strong> {{message}}
+    </div><div class="alert alert-danger" style="display: none;width: 50%;text-align: center" id="errorStat" align="center">
         <strong>{{status}}!</strong> {{message}}
     </div>
     <div align="center" class="form-group">
@@ -33,6 +35,12 @@
         </div>
         <br><br>
         <div id="googleMap" style="width:500px;height:300px;"></div>
+        <br>
+        <div class="btn-group" ng-click="changeAddress()" style="height: 42px">
+            <a class="btn btn-primary">
+                <span class="fui-new"></span>
+            </a>
+        </div>
         <br><br>
         <button class="btn btn-block btn-lg btn-info my-style"  style="width: 150px;display: inline-block" ng-click="editGift()">Edit</button>
         <button class="btn btn-block btn-lg btn-info my-style"  style="width: 150px; display: inline-block;margin-top:0px" ng-click="cancel()">Cancel</button>

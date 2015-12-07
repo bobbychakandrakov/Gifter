@@ -3,6 +3,7 @@ app.controller('editGiftCtrl',['$scope','peopleService','$location','giftsServic
     document.title = 'Edit gift';
 
     var gift, marker;
+    var map;
 
     $scope.people = peopleService.getPeople().then(getData);
 
@@ -17,35 +18,90 @@ app.controller('editGiftCtrl',['$scope','peopleService','$location','giftsServic
         $scope.gift = gift;
     });
 
+    $scope.cancel = function(){
+        $location.path('/gifts');
+    };
+
     $scope.editGift = function(){
         var name = $('#gift-name').val(),
             price = $('#gift-price').val(),
             owner = document.getElementById('dropdown-person').value;
-        giftsService.updateGift(name,price,id,owner);
-        $location.path('/gifts');
+        if(name === "" || price === "" || owner === '0' || marker === undefined){
+            $('#errorStat').css('display','block');
+            $('#successStat').css('display','none');
+            $scope.status = "Error";
+            $scope.message = "Please , enter valid information about the gift!";
+        }else{
+            giftsService.updateGift(name,price,id,owner,marker.getPosition().lat(),marker.getPosition().lng());
+            $location.path('/gifts');
+        }
     };
 
     $scope.changeName = function(){
         var name = $('#gift-name').val();
-        giftsService.updateGiftName(id,name);
+        if(name === ""){
+            $('#errorStat').css('display','block');
+            $('#successStat').css('display','none');
+            $scope.status = "Error";
+            $scope.message = "Please , enter valid name!";
+        }else{
+            giftsService.updateGiftName(id,name);
+            $('#errorStat').css('display','none');
+            $('#successStat').css('display','block');
+            $scope.status = "Success";
+            $scope.message = "Gift name changed!";
+        }
+
     };
 
     $scope.changePrice = function(){
         var price = $('#gift-price').val();
-        giftsService.updateGiftPrice(id,price);
+        if(price === ""){
+            $('#errorStat').css('display','block');
+            $('#successStat').css('display','none');
+            $scope.status = "Error";
+            $scope.message = "Please , enter valid price!";
+        }else{
+            giftsService.updateGiftPrice(id,price);
+            $('#errorStat').css('display','none');
+            $('#successStat').css('display','block');
+            $scope.status = "Success";
+            $scope.message = "Gift price changed!";
+        }
     };
 
     $scope.changeOwner = function(){
         var owner = document.getElementById('dropdown-person').value;
         if(owner !== '0'){
             giftsService.updateGiftOwner(id,owner);
+            $('#errorStat').css('display','none');
+            $('#successStat').css('display','block');
+            $scope.status = "Success";
+            $scope.message = "Gift owner changed!";
         }else{
-            //Error message
+            $('#errorStat').css('display','block');
+            $('#successStat').css('display','none');
+            $scope.status = "Error";
+            $scope.message = "Please , enter a owner!";
+        }
+    };
+
+    $scope.changeAddress = function () {
+        if(marker === undefined){
+            $('#errorStat').css('display','block');
+            $('#successStat').css('display','none');
+            $scope.status = "Error";
+            $scope.message = "Please , enter a place!";
+        }else{
+            giftsService.updateGiftAddress(id,marker.getPosition().lat(),marker.getPosition().lng());
+            $('#errorStat').css('display','none');
+            $('#successStat').css('display','block');
+            $scope.status = "Success";
+            $scope.message = "Gift address changed!";
         }
     };
 
     $timeout(function(){
-        var map;
 
         var myCenter=new google.maps.LatLng(parseFloat($scope.gift.x), parseFloat($scope.gift.y));//42.22851735620852,25.224609375
 

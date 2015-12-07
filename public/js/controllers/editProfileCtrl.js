@@ -8,6 +8,10 @@ app.controller('editProfileCtrl',['$scope','authService',function($scope,authSer
             email=$('#new-email').val();
         if(username.length >= 6 && pass.length >= 6 && validateEmail(email)) {
             authService.updateProfile(username, pass, email);
+            $('#errorStat').css('display','none');
+            $('#successStat').css('display','block');
+            $scope.status = "Success";
+            $scope.message = "Profile updated!";
         }else{
             $('#errorStat').css('display','block');
             $('#successStat').css('display','none');
@@ -20,8 +24,15 @@ app.controller('editProfileCtrl',['$scope','authService',function($scope,authSer
         var user =$('#new-username').val();
         if(user.length >= 6 && user.indexOf(' ') === -1){
             authService.updateUsername(user);
+            $('#errorStat').css('display','none');
+            $('#successStat').css('display','block');
+            $scope.status = "Success";
+            $scope.message = "Username changed!";
         }else{
-            $('#errorChange').text("Username must be valide!");
+            $('#errorStat').css('display','block');
+            $('#successStat').css('display','none');
+            $scope.status = "Error";
+            $scope.message = "Please , enter valid username!";
         }
     };
 
@@ -29,8 +40,15 @@ app.controller('editProfileCtrl',['$scope','authService',function($scope,authSer
         var password =$('#new-password').val();
         if(password.length >= 6 && password.indexOf(' ') === -1){
             authService.updatePassword(password);
+            $('#errorStat').css('display','none');
+            $('#successStat').css('display','block');
+            $scope.status = "Success";
+            $scope.message = "Password changed!";
         }else{
-            $('#errorChange').text("Password is invalid!");
+            $('#errorStat').css('display','block');
+            $('#successStat').css('display','none');
+            $scope.status = "Error";
+            $scope.message = "Please , enter valid password!";
         }
     };
 
@@ -38,8 +56,15 @@ app.controller('editProfileCtrl',['$scope','authService',function($scope,authSer
         var email =$('#new-email').val();
         if(validateEmail(email)){
             authService.updateEmail(email);
+            $('#errorStat').css('display','none');
+            $('#successStat').css('display','block');
+            $scope.status = "Success";
+            $scope.message = "Email changed!";
         }else{
-            $('#errorChange').text("Wrong e-mail!");
+            $('#errorStat').css('display','block');
+            $('#successStat').css('display','none');
+            $scope.status = "Error";
+            $scope.message = "Please , enter valid e-mail!";
         }
     };
 

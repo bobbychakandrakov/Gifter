@@ -56,7 +56,7 @@ app.factory('giftsService',function($location,$http){
                 }
             });
         },
-        updateGift: function(name,price,id,owner){
+        updateGift: function(name,price,id,owner,x,y){
             $http({
                 headers:
                 {
@@ -65,7 +65,7 @@ app.factory('giftsService',function($location,$http){
                 },
                 method: 'PUT',
                 url: giftUrl+'/'+id,
-                data:'name='+name+"&price="+price+'&owner='+owner
+                data:'name='+name+"&price="+price+'&owner='+owner+"&x="+x+"&y="+y
             }).success(function(res){
                 if(res.success){
                     console.log("Gift updated!");
@@ -141,6 +141,24 @@ app.factory('giftsService',function($location,$http){
                     console.log("Gift owner updated!");
                 }else{
                     console.log("Gift Creat ERROR!");
+                }
+            });
+        },
+        updateGiftAddress:function(id,x,y){
+            $http({
+                headers:
+                {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'gifter-access-token':sessionStorage.getItem('gifter-access-token')
+                },
+                method: 'PUT',
+                url: giftUrl+'/address/'+id,
+                data:'x='+x+"&y="+y
+            }).success(function(res){
+                if(res.success){
+                    console.log("Gift address updated!");
+                }else{
+                    console.log("Gift address ERROR!");
                 }
             });
         }
