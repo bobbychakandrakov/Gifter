@@ -3,6 +3,7 @@ app.controller('editGiftCtrl',['$scope','peopleService','$location','giftsServic
     document.title = 'Edit gift';
 
     var gift, marker;
+
     var map;
 
     $scope.people = peopleService.getPeople().then(getData);
@@ -26,7 +27,7 @@ app.controller('editGiftCtrl',['$scope','peopleService','$location','giftsServic
         var name = $('#gift-name').val(),
             price = $('#gift-price').val(),
             owner = document.getElementById('dropdown-person').value;
-        if(name === "" || price === "" || owner === '0' || marker === undefined){
+        if(name === "" || price === "" || owner === '0' || marker === undefined || validatePrice(price)){
             $('#errorStat').css('display','block');
             $('#successStat').css('display','none');
             $scope.status = "Error";
@@ -56,7 +57,7 @@ app.controller('editGiftCtrl',['$scope','peopleService','$location','giftsServic
 
     $scope.changePrice = function(){
         var price = $('#gift-price').val();
-        if(price === ""){
+        if(price === "" || !validatePrice(price)){
             $('#errorStat').css('display','block');
             $('#successStat').css('display','none');
             $scope.status = "Error";
@@ -138,4 +139,9 @@ app.controller('editGiftCtrl',['$scope','peopleService','$location','giftsServic
         google.maps.event.addDomListener(window, 'load', initialize);
     },1000);
 
+
+    function validatePrice(price){
+        var re = /^[0-9]+$/i;
+        return re.test(price);
+    }
 }]);

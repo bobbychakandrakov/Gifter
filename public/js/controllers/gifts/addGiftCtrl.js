@@ -42,7 +42,7 @@ app.controller('addGiftCtrl',['$scope','giftsService','$location','peopleService
         var personId = drop.options[drop.selectedIndex].value;
         var name =$('#gift-name').val(),
             price =$('#gift-price').val();
-        if(name === "" || price === "" || marker === undefined){
+        if(name === "" || price === "" || marker === undefined || !validatePrice(price)){
             $('#errorStat').css('display','block');
             $('#successStat').css('display','none');
             $scope.status = "Error";
@@ -66,5 +66,10 @@ app.controller('addGiftCtrl',['$scope','giftsService','$location','peopleService
     $scope.cancel = function(){
         $location.path('/gifts');
     };
+
+    function validatePrice(price){
+        var re = /^[0-9]+$/i;
+        return re.test(price);
+    }
 
 }]);
