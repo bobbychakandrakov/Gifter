@@ -4,7 +4,7 @@ app.factory('authService',function($location,$http,$rootScope){
           apiUrl = 'http://localhost:8080/api/';
     var userId = "";
     return {
-        logIn: function(user , pass){
+        logIn: function(user , pass,call){
             $http({
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
                 method: 'POST',
@@ -17,28 +17,24 @@ app.factory('authService',function($location,$http,$rootScope){
                     sessionStorage.setItem('gifter-access-token',res.token);
                     sessionStorage.setItem('id',res.id);
                     $location.path('/home');
-                }else{
-                    console.log("Not ok");
                 }
+            }).error(function(res){
+                call(res.message);
             });
         },
-        registerUser:function(user , pass , email){
+        registerUser:function(user , pass , email, call){
             $http({
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
                 method: 'POST',
                 url: authUrl+'register',
                 data:'username='+user+'&password='+pass+ '&email=' +email
             }).success(function(res){
-                if(res.success){
-                    console.log('Ok');
-                    $location.path('/');
-                }else{
-                    console.log('Error');
-                    $('#errorReg').text(res.errCode);
-                }
+                $location.path('/');
+            }).error(function(res){
+                call(res.message);
             });
         },
-        updateProfile:function(user,pass,email){
+        updateProfile:function(user,pass,email,error){
             var id = sessionStorage.getItem('id');
             $http({
                 headers:
@@ -52,12 +48,12 @@ app.factory('authService',function($location,$http,$rootScope){
             }).success(function(res){
                 if(res.success){
                     $location.path('/home');
-                }else{
-                    console.log('Error');
                 }
+            }).error(function(res){
+                error(res.message);
             });
         },
-        updateUsername:function(user){
+        updateUsername:function(user,error,success){
             var id = sessionStorage.getItem('id');
             $http({
                 headers:
@@ -70,13 +66,13 @@ app.factory('authService',function($location,$http,$rootScope){
                 data:'username='+user
             }).success(function(res){
                 if(res.success){
-                    console.log('Changed!');
-                }else{
-                    console.log('Error');
+                    success("Username changed!");
                 }
+            }).error(function(res){
+                error(res.message);
             });
         },
-        updatePassword:function(pass){
+        updatePassword:function(pass,error,success){
             var id = sessionStorage.getItem('id');
             $http({
                 headers:
@@ -89,13 +85,13 @@ app.factory('authService',function($location,$http,$rootScope){
                 data:'password='+pass
             }).success(function(res){
                 if(res.success){
-                    console.log('Changed!');
-                }else{
-                    console.log('Error');
+                    success("Password changed!");
                 }
+            }).error(function(res){
+                error(res.message);
             });
         },
-        updateEmail:function(email){
+        updateEmail:function(email,error,success){
             var id = sessionStorage.getItem('id');
             $http({
                 headers:
@@ -108,10 +104,10 @@ app.factory('authService',function($location,$http,$rootScope){
                 data:'email='+email
             }).success(function(res){
                 if(res.success){
-                    console.log('Changed!');
-                }else{
-                    console.log('Error');
+                    success("Email updated!")
                 }
+            }).error(function(res){
+                error(res.message);
             });
         }
 

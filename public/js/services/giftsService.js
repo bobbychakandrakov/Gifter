@@ -4,7 +4,7 @@
 app.factory('giftsService',function($location,$http){
     const giftUrl = "http://localhost:8080/api/gift";
     return {
-        createGift: function(name,price,id,x,y){
+        createGift: function(name,price,id,x,y,img){
             $http({
                 headers:
                 {
@@ -13,7 +13,7 @@ app.factory('giftsService',function($location,$http){
                 },
                 method: 'POST',
                 url: giftUrl+'/'+id,
-                data:'name='+name+"&price="+price+"&x="+x+"&y="+y
+                data:'name='+name+"&price="+price+"&x="+x+"&y="+y+"&file="+img
             }).success(function(res){
                 if(res.success){
                     console.log("Gift created!");

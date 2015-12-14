@@ -19,15 +19,15 @@ app.controller('peopleCtrl',['$scope','peopleService','$location',function($scop
         return !!($scope.people === undefined || $scope.people.length == 0 || len == 0);
     };
 
-    setInterval(function () {
-        $('.delete').click(function(e){
-            $(this).closest('tr').remove();
-        });
-    },1000);
 
     $scope.deletePerson = function (id) {
-        peopleService.deletePerson(id);
-        len--;
-    };
+        bootbox.confirm("Are you sure you want to delete this person?", function (answer) {
+            if(answer === true){
+                peopleService.deletePerson(id);
+                len--;
+                $scope.people = peopleService.getPeople().then(getData);
+            }
+        });
 
+    };
 }]);

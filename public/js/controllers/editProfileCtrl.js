@@ -7,11 +7,18 @@ app.controller('editProfileCtrl',['$scope','authService',function($scope,authSer
             pass =$('#new-password').val(),
             email=$('#new-email').val();
         if(username.length >= 6 && pass.length >= 6 && validateEmail(email)) {
-            authService.updateProfile(username, pass, email);
-            $('#errorStat').css('display','none');
-            $('#successStat').css('display','block');
-            $scope.status = "Success";
-            $scope.message = "Profile updated!";
+            authService.updateProfile(username, pass, email, function (message) {
+                $('#errorStat').css('display','none');
+                $('#successStat').css('display','block');
+                $scope.status = "Error";
+                $scope.message = message;
+            }, function (message) {
+                $('#errorStat').css('display','block');
+                $('#successStat').css('display','none');
+                $scope.status = "Success";
+                $scope.message = message;
+            });
+
         }else{
             $('#errorStat').css('display','block');
             $('#successStat').css('display','none');
@@ -23,11 +30,17 @@ app.controller('editProfileCtrl',['$scope','authService',function($scope,authSer
     $scope.updateUsername = function(){
         var user =$('#new-username').val();
         if(user.length >= 6 && user.indexOf(' ') === -1){
-            authService.updateUsername(user);
-            $('#errorStat').css('display','none');
-            $('#successStat').css('display','block');
-            $scope.status = "Success";
-            $scope.message = "Username changed!";
+            authService.updateUsername(user, function (message) {
+                $('#errorStat').css('display','block');
+                $('#successStat').css('display','none');
+                $scope.status = "Error";
+                $scope.message = message;
+            }, function (message) {
+                $('#errorStat').css('display','none');
+                $('#successStat').css('display','block');
+                $scope.status = "Success";
+                $scope.message = message;
+            });
         }else{
             $('#errorStat').css('display','block');
             $('#successStat').css('display','none');
@@ -39,11 +52,17 @@ app.controller('editProfileCtrl',['$scope','authService',function($scope,authSer
     $scope.updatePassword = function(){
         var password =$('#new-password').val();
         if(password.length >= 6 && password.indexOf(' ') === -1){
-            authService.updatePassword(password);
-            $('#errorStat').css('display','none');
-            $('#successStat').css('display','block');
-            $scope.status = "Success";
-            $scope.message = "Password changed!";
+            authService.updatePassword(password,function(message){
+                $('#errorStat').css('display','block');
+                $('#successStat').css('display','none');
+                $scope.status = "Error";
+                $scope.message = message;
+            }, function (message) {
+                $('#errorStat').css('display','none');
+                $('#successStat').css('display','block');
+                $scope.status = "Success";
+                $scope.message = message;
+            });
         }else{
             $('#errorStat').css('display','block');
             $('#successStat').css('display','none');
@@ -55,11 +74,17 @@ app.controller('editProfileCtrl',['$scope','authService',function($scope,authSer
     $scope.updateEmail = function(){
         var email =$('#new-email').val();
         if(validateEmail(email)){
-            authService.updateEmail(email);
-            $('#errorStat').css('display','none');
-            $('#successStat').css('display','block');
-            $scope.status = "Success";
-            $scope.message = "Email changed!";
+            authService.updateEmail(email, function (message) {
+                $('#errorStat').css('display','block');
+                $('#successStat').css('display','none');
+                $scope.status = "Error";
+                $scope.message = message;
+            }, function (message) {
+                $('#errorStat').css('display','none');
+                $('#successStat').css('display','block');
+                $scope.status = "Success";
+                $scope.message = message;
+            });
         }else{
             $('#errorStat').css('display','block');
             $('#successStat').css('display','none');

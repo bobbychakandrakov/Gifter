@@ -39,7 +39,7 @@ publicRoutes.post('/login', function(req, res) {
             (
                 {
                 success: false,
-                data: "Error occured: " + err
+                message: "Error occured: " + err
                 }
             );
         }
@@ -64,7 +64,7 @@ publicRoutes.post('/login', function(req, res) {
                 (
                     {
                     success: false,
-                    data: "Incorrect password or username"
+                    message: "Incorrect password or username"
                      }
                 );
             }
@@ -84,7 +84,7 @@ publicRoutes.post('/register', function(req, res)
             (
                 {
                 success: false,
-                data: "Error occured: " + err
+                message: "Error occured: " + err
                 }
             );
         }
@@ -97,7 +97,7 @@ publicRoutes.post('/register', function(req, res)
                 (
                     {
                     success:false,
-                    data:'username already exist'
+                    message:'username already exist'
                     }
                 );
             }
@@ -111,7 +111,7 @@ publicRoutes.post('/register', function(req, res)
                         (
                             {
                             success: false,
-                            data: "Error occured: " + err
+                            message: "Error occured: " + err
                             }
                         );
                     }
@@ -124,7 +124,7 @@ publicRoutes.post('/register', function(req, res)
                             (
                                 {
                                 success:false,
-                                data:'email already exist'
+                                message:'email already exist'
                                 }
                             );
                         }
@@ -146,7 +146,7 @@ publicRoutes.post('/register', function(req, res)
                                         (
                                             {
                                             success: false,
-                                            data: "Error occured: " + err
+                                            message: "Error occured: " + err
                                             }
                                         )
                                     }
@@ -205,7 +205,7 @@ apiRoutes.use(function(req, res, next) {
 //============================api routs{protected by gifter-access-token}===================================
 apiRoutes.put('/profile/:id',function(req, res)
 {
-    User.findById(req.params.id, function(err, user)
+    User.findById(req.params.id, function(err, user1)
     {
         if (err)
             {
@@ -214,44 +214,72 @@ apiRoutes.put('/profile/:id',function(req, res)
             (
                 {
                 success:false,
-                data:err
+                message:err
                 }
             );
         }
         else
         {
-            user.username = req.body.username;
-            user.email=req.body.email;
-            user.password=req.body.password;
-            user.save(function(err)
-            {
-                if (err)
-                {
+            User.findOne({username:req.body.username}, function(err, user) {
+                if (err) {
                     res.status(404);
-                    res.json(
-                        {
-                            success: false,
-                            data: "Error occured: " + err
-                        }
-                    );
-                }
-                else
-                {
                     res.json
                     (
                         {
-                            success: true
+                            success: false,
+                            message: "Error occured: " + err
                         }
                     );
                 }
+                else {
+                    if (user) {
+                        res.status(404);
+                        res.json
+                        (
+                            {
+                                success: false,
+                                message: 'username already exist'
+                            }
+                        );
+                    }
+                    else {
 
+                        user1.username = req.body.username;
+                        user1.email=req.body.email;
+                        user1.password=req.body.password;
+                        user1.save(function(err)
+                        {
+                            if (err)
+                            {
+                                res.status(404);
+                                res.json(
+                                    {
+                                        success: false,
+                                        message: "Error occured: " + err
+                                    }
+                                );
+                            }
+                            else
+                            {
+                                res.json
+                                (
+                                    {
+                                        success: true
+                                    }
+                                );
+                            }
+
+                        });
+                    }
+
+                }
             });
-        }
 
+        }
     });
 });
 apiRoutes.put('/username/:id',function(req, res) {
-    User.findById(req.params.id, function(err, user)
+    User.findById(req.params.id, function(err, user1)
     {
         if (err)
         {
@@ -260,36 +288,63 @@ apiRoutes.put('/username/:id',function(req, res) {
             (
                 {
                     success:false,
-                    data:err
+                    message:err
                 }
             );
         }
         else
         {
-            user.username = req.body.username;
-            user.email=user.email;
-            user.password=user.password;
-            user.save(function(err) {
-                if (err)
-                {
+            User.findOne({username:req.body.username}, function(err, user) {
+                if (err) {
                     res.status(404);
                     res.json
                     (
                         {
                             success: false,
-                            data: "Error occured: " + err
+                            message: "Error occured: " + err
                         }
                     );
                 }
-                else
-                {
-                    res.json
-                    (
-                        {
-                            success: true
-                        }
-                    );
+                else {
+                    if (user) {
+                        res.status(404);
+                        res.json
+                        (
+                            {
+                                success: false,
+                                message: 'username already exist'
+                            }
+                        );
+                    }
+                    else {
+                        user1.username = req.body.username;
+                        user1.email = user1.email;
+                        user1.password = user1.password;
+                        user1.save(function (err) {
+                            if (err) {
+                                res.status(404);
+                                res.json
+                                (
+                                    {
+                                        success: false,
+                                        message: "Error occured: " + err
+                                    }
+                                );
+                            }
+                            else {
+                                res.json
+                                (
+                                    {
+                                        success: true
+                                    }
+                                );
+                            }
+
+                        });
+                    }
+
                 }
+
 
             });
         }
@@ -308,7 +363,7 @@ apiRoutes.put('/email/:id',function(req, res)
             (
                 {
                     success:false,
-                    data:err
+                    message:err
                 }
             );
             user.username = user.username;
@@ -325,7 +380,7 @@ apiRoutes.put('/email/:id',function(req, res)
                 (
                     {
                         success: false,
-                        data: "Error occured: " + err
+                        message: "Error occured: " + err
                     }
                 );
             }
@@ -359,7 +414,7 @@ apiRoutes.put('/password/:id',function(req, res)
             (
                 {
                 success: false,
-                data: err
+                message: err
                 }
             );
         }
@@ -376,7 +431,7 @@ apiRoutes.put('/password/:id',function(req, res)
                 (
                     {
                         success: false,
-                        data: "Error occured: " + err
+                        message: "Error occured: " + err
                     }
                 );
             }
@@ -406,7 +461,7 @@ apiRoutes.post('/person', function(req, res)
             (
                 {
                 success: false,
-                data: "Error occured: " + err
+                message: "Error occured: " + err
                 }
             );
         }
@@ -414,23 +469,50 @@ apiRoutes.post('/person', function(req, res)
         {
             if (user)
             {
-                var personModel= new Person();
-                personModel.name = req.body.name;
-                personModel.owner_id = user.id;
-                personModel.save(function(err, person)
-                {
-                    person.save(function(err, person1)
-                        {
-                            res.status(201);
+                Person.findOne({name:req.body.name}, function (err, person) {
+                    if (err) {
+                        res.status(404);
+                        res.json
+                        (
+                            {
+                                success: false,
+                                message: "Error occured: " + err
+                            }
+                        );
+                    }
+                    else {
+                        if(person){
+                            res.status(404)
                             res.json
                             (
                                 {
-                                    success: true,
-                                    name:person1.name
+                                  message:"Person already exist"
                                 }
-                            );
+
+                            )
                         }
-                    );
+                        else
+                        {
+                            var personModel= new Person();
+                            personModel.name = req.body.name;
+                            personModel.owner_id = user.id;
+                            personModel.save(function(err, person)
+                            {
+                                person.save(function(err, person1)
+                                    {
+                                        res.status(201);
+                                        res.json
+                                        (
+                                            {
+                                                success: true,
+                                                name:person1.name
+                                            }
+                                        );
+                                    }
+                                );
+                            })
+                        }
+                    }
                 })
             }
             else
@@ -459,7 +541,7 @@ apiRoutes.get('/person', function(req, res)
             (
                 {
                 success: false,
-                data: "Error occured: " + err
+                message: "Error occured: " + err
                 }
             );
         }
@@ -475,7 +557,7 @@ apiRoutes.get('/person', function(req, res)
                         res.json(
                             {
                             success: false,
-                            data: "Error occured: " + err
+                            message: "Error occured: " + err
                             }
                         );
                     }
@@ -498,7 +580,7 @@ apiRoutes.get('/person', function(req, res)
                             (
                                 {
                                 success:false,
-                                data:"No people for this user"
+                                message:"No people for this user"
                                  }
                             );
                         }
@@ -518,7 +600,6 @@ apiRoutes.get('/person', function(req, res)
             }
         }
     });
-
 }
 );
 apiRoutes.get( '/person/:id', function( req, res ) {
@@ -531,7 +612,7 @@ apiRoutes.get( '/person/:id', function( req, res ) {
             (
                 {
                     success: false,
-                    data: "Error occured: " + err
+                    message: "Error occured: " + err
                  }
             );
         }
@@ -555,7 +636,7 @@ apiRoutes.get( '/person/:id', function( req, res ) {
                 (
                     {
                         success:false,
-                        data:"No person for this user"
+                        message:"No person for this user"
                      }
                 );
             }
@@ -571,7 +652,7 @@ apiRoutes.put('/person/:id',function(req, res)
             res.json
             (   {
                 success: false,
-                data:err
+                message:err
                 }
             );
         }
@@ -586,7 +667,7 @@ apiRoutes.put('/person/:id',function(req, res)
                     (
                         {
                             success: false,
-                            data: "Error occured: " + err
+                            message: "Error occured: " + err
                         }
                     );
                 }
@@ -608,6 +689,22 @@ apiRoutes.put('/person/:id',function(req, res)
 });
 apiRoutes.delete('/person/:id',function(req, res)
 {
+    Gift.find({owner_id:req.params.id}, function(err,docs){
+        if (err)
+        {
+            res.status(404);
+            res.json
+            (
+                {
+                    success: false,
+                    message: "Error occured: " + err
+                }
+            );
+        }
+        docs.forEach( function (doc) {
+            doc.remove();
+        });
+    });
     Person.findByIdAndRemove(req.params.id, function(err)
     {
         if (err)
@@ -617,7 +714,7 @@ apiRoutes.delete('/person/:id',function(req, res)
             (
                 {
                 success: false,
-                data: "Error occured: " + err
+                message: "Error occured: " + err
                 }
             );
         }
@@ -639,7 +736,7 @@ apiRoutes.post('/gift/:id', function(req, res)
             (
                 {
                     success: false,
-                    data: "Error occured: " + err
+                    message: "Error occured: " + err
                 }
             );
         }
@@ -657,12 +754,14 @@ apiRoutes.post('/gift/:id', function(req, res)
                         (
                             {
                                 success: false,
-                                data: "Error occured: " + err
+                                message: "Error occured: " + err
                             }
                         );
                     }
                     if(person)
                     {
+                        var file = req.files.file;
+                        var tempPath = file.path;
                         var giftModel = new Gift();
                         giftModel.name = req.body.name;
                         giftModel.price = req.body.price;
@@ -671,6 +770,8 @@ apiRoutes.post('/gift/:id', function(req, res)
                         giftModel.y=req.body.y;
                         giftModel.ownerName=person.name;
                         giftModel.username=user.username;
+                        giftModel.img.data =  fs.readFileSync(tempPath);
+                        giftModel.img.contentType = file.type;
                         giftModel.save(function (err, gift)
                             {
                                 if (err)
@@ -680,7 +781,7 @@ apiRoutes.post('/gift/:id', function(req, res)
                                     (
                                         {
                                             success: false,
-                                            data: "Error occured: " + err
+                                            message: "Error occured: " + err
                                         }
                                     );
                                 }
@@ -695,7 +796,7 @@ apiRoutes.post('/gift/:id', function(req, res)
                                             (
                                                 {
                                                     success: false,
-                                                    data: "Error occured: " + err
+                                                    message: "Error occured: " + err
                                                 }
                                             );
                                         }
@@ -722,7 +823,7 @@ apiRoutes.post('/gift/:id', function(req, res)
                         (
                             {
                                 success:false,
-                                data:"person cannot be found"
+                                message:"person cannot be found"
                             }
                         )
                     }
@@ -747,7 +848,7 @@ apiRoutes.put('/gift/:id',function(req, res)
             (
                 {
                     success:false,
-                    data:err
+                    message:err
                 }
             );
         }
@@ -767,7 +868,7 @@ apiRoutes.put('/gift/:id',function(req, res)
                     (
                         {
                             success: false,
-                            data: "Error occured: " + err
+                            message: "Error occured: " + err
                         }
                     );
                 }
@@ -800,7 +901,7 @@ apiRoutes.put('/gift/name/:id',function(req, res)
             (
                 {
                     success:false,
-                    data:err
+                    message:err
                 }
             );
         }
@@ -816,7 +917,7 @@ apiRoutes.put('/gift/name/:id',function(req, res)
                     (
                         {
                             success: false,
-                            data: "Error occured: " + err
+                            message: "Error occured: " + err
                         }
                     );
                 }
@@ -849,7 +950,7 @@ apiRoutes.put('/gift/owner/:id',function(req, res)
             (
                 {
                     success:false,
-                    data:err
+                    message:err
                 }
             );
         }
@@ -865,7 +966,7 @@ apiRoutes.put('/gift/owner/:id',function(req, res)
                     (
                         {
                             success: false,
-                            data: "Error occured: " + err
+                            message: "Error occured: " + err
                         }
                     );
                 }
@@ -898,7 +999,7 @@ apiRoutes.put('/gift/address/:id',function(req, res)
             (
                 {
                     success:false,
-                    data:err
+                    message:err
                 }
             );
         }
@@ -915,7 +1016,7 @@ apiRoutes.put('/gift/address/:id',function(req, res)
                     (
                         {
                             success: false,
-                            data: "Error occured: " + err
+                            message: "Error occured: " + err
                         }
                     );
                 }
@@ -948,7 +1049,7 @@ apiRoutes.put('/gift/price/:id',function(req, res)
             (
                 {
                     success:false,
-                    data:err
+                    message:err
                 }
             );
         }
@@ -964,7 +1065,7 @@ apiRoutes.put('/gift/price/:id',function(req, res)
                     (
                         {
                             success: false,
-                            data: "Error occured: " + err
+                            message: "Error occured: " + err
                         }
                     );
                 }
@@ -997,7 +1098,7 @@ apiRoutes.delete('/gift/:id',function(req, res)
             (
                 {
                     success: false,
-                    data: "Error occured: " + err
+                    message: "Error occured: " + err
                 }
             );
         }
@@ -1018,7 +1119,7 @@ apiRoutes.get('/gifts/:id', function(req, res)
             (
                 {
                     success: false,
-                    data: "Error occured: " + err
+                    message: "Error occured: " + err
                 }
             );
         }
@@ -1035,7 +1136,7 @@ apiRoutes.get('/gifts/:id', function(req, res)
                         (
                             {
                                 success: false,
-                                data: "Error occured: " + err
+                                message: "Error occured: " + err
                             }
                         );
                     }
@@ -1060,7 +1161,7 @@ apiRoutes.get('/gifts/:id', function(req, res)
                             (
                                 {
                                     success:false,
-                                    data:"No gifts for this person"
+                                    message:"No gifts for this person"
                                 }
                             );
                         }
@@ -1089,7 +1190,7 @@ apiRoutes.get( '/gift/:id', function( req, res ) {
             (
                 {
                     success: false,
-                    data: "Error occured: " + err
+                    message: "Error occured: " + err
                 }
             );
         }
@@ -1116,7 +1217,7 @@ apiRoutes.get( '/gift/:id', function( req, res ) {
                 (
                     {
                         success:false,
-                        data:"Gift cannot be found"
+                        message:"Gift cannot be found"
                     }
                 );
             }
@@ -1134,7 +1235,7 @@ apiRoutes.get('/gifts', function(req, res)
                 (
                     {
                         success: false,
-                        data: "Error occured: " + err
+                        message: "Error occured: " + err
                     }
                 );
             }
@@ -1150,7 +1251,7 @@ apiRoutes.get('/gifts', function(req, res)
                                 res.json(
                                     {
                                         success: false,
-                                        data: "Error occured: " + err
+                                        message: "Error occured: " + err
                                     }
                                 );
                             }
@@ -1173,7 +1274,7 @@ apiRoutes.get('/gifts', function(req, res)
                                     (
                                         {
                                             success:false,
-                                            data:"No people for this user"
+                                            message:"No people for this user"
                                         }
                                     );
                                 }

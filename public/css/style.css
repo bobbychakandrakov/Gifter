@@ -144,6 +144,9 @@ a:focus{
     color:#e74c3c;
 }
 
-.select2-results-dept-0 .select2-result .select2-result-selectable .ng-binding .ng-scope .select2-highlighted:focus{
-    background-color:#e74c3c;
+.select2-results-dept-0 .select2-result .select2-result-selectable .ng-binding .ng-scope .select2-highlighted:focus {
+    background-color: #e74c3c;
+}
+div.ng-enter{
+    animation:bounceIn 1s;
 }

@@ -57,12 +57,14 @@ app.controller('editGiftCtrl',['$scope','peopleService','$location','giftsServic
 
     $scope.changePrice = function(){
         var price = $('#gift-price').val();
+
         if(price === "" || !validatePrice(price)){
             $('#errorStat').css('display','block');
             $('#successStat').css('display','none');
             $scope.status = "Error";
             $scope.message = "Please , enter valid price!";
         }else{
+            price = accounting.formatMoney(price);
             giftsService.updateGiftPrice(id,price);
             $('#errorStat').css('display','none');
             $('#successStat').css('display','block');

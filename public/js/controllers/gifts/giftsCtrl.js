@@ -1,26 +1,51 @@
 app.controller('giftsCtrl',['$scope','peopleService','$location','giftsService',function($scope,peopleService,$location,giftsService){
 
     document.title = 'Gifts';
-    var len;
-
     $scope.pageSize = 5;
     $scope.currentPage = 1;
+    var len;
+
+    $scope.orderByName = function () {
+        if($scope.order === 'name'){
+            $scope.order = "-name";
+        }else{
+            $scope.order = 'name';
+        }
+    };
+
+    $scope.orderByPrice = function () {
+        if($scope.order === 'price'){
+            $scope.order = "-price";
+        }else{
+            $scope.order = 'price';
+        }
+    };
+
+    $scope.orderByOwner = function () {
+        if($scope.order === 'ownerName'){
+            $scope.order = "-ownerName";
+        }else{
+            $scope.order = 'ownerName';
+        }
+    };
 
     $scope.gifts = giftsService.getGifts().then(function(data){
         $scope.gifts = data.data.gift;
         len = $scope.gifts.length;
     });
 
-    setInterval(function () {
-        $('.delete').click(function(e){
-            $(this).closest('tr').remove();
-        });
-    },1000);
-
     $scope.deleteGift = function(id){
-        giftsService.deleteGift(id);
-        console.log(len);
-        len--;
+
+        bootbox.confirm("Are you sure you want to delete this gift?", function (answer) {
+            if(answer === true){
+                giftsService.deleteGift(id);
+                len--;
+                $scope.gifts = giftsService.getGifts().then(function(data){
+                    $scope.gifts = data.data.gift;
+                    len = $scope.gifts.length;
+                });
+            }
+        });
     };
 
     $scope.showTable = function(){

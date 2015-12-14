@@ -31,7 +31,12 @@ var GiftSchema = mongoose.model('Gift', new Schema({
     ownerName:
     {
         type:String
+    },
+    img: {
+        data: Buffer,
+        contentType: String
     }
+
 
 }));
 module.exports = mongoose.model('Gift', GiftSchema);

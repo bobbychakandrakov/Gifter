@@ -1,5 +1,5 @@
 var app;
-app = angular.module('gifter', ['ngResource', 'ngRoute', 'ui.bootstrap'])
+app = angular.module('gifter', ['ngResource', 'ngRoute','ngAnimate', 'ui.bootstrap'])
     .config(function ($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true).hashPrefix('!');// $locationProvide html5Mode -> true (no #)
         $routeProvider.when('/', {
@@ -113,4 +113,8 @@ app = angular.module('gifter', ['ngResource', 'ngRoute', 'ui.bootstrap'])
                 controller: 'editGiftCtrl'
             })
             .otherwise({redirectTo: '/'});
+    }).filter('startFrom', function () {
+        return function (data,start) {
+            return data.slice(start);
+        }
     });

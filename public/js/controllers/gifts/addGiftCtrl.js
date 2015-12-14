@@ -41,7 +41,8 @@ app.controller('addGiftCtrl',['$scope','giftsService','$location','peopleService
         var drop = document.getElementById("dropdown-person");
         var personId = drop.options[drop.selectedIndex].value;
         var name =$('#gift-name').val(),
-            price =$('#gift-price').val();
+            price =$('#gift-price').val(),
+            img = document.getElementById('file-1').files[0];
         if(name === "" || price === "" || marker === undefined || !validatePrice(price)){
             $('#errorStat').css('display','block');
             $('#successStat').css('display','none');
@@ -49,11 +50,12 @@ app.controller('addGiftCtrl',['$scope','giftsService','$location','peopleService
             $scope.message = "Please , enter information about the gift!";
         }
         else{
+            price = accounting.formatMoney(price);
             $('#successStat').css('display','block');
             $('#errorStat').css('display','none');
             $scope.status = "Success";
             $scope.message = "Gift created!";
-            giftsService.createGift(name,price,personId,marker.getPosition().lat(),marker.getPosition().lng());
+            giftsService.createGift(name,price,personId,marker.getPosition().lat(),marker.getPosition().lng(),img);
         }
     };
 

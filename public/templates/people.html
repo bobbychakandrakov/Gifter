@@ -2,6 +2,9 @@
     <div ng-include="'templates/navbar.html'">
     </div>
     <h3 align="center">People</h3>
+    <div style="margin-right: 10px;display: inline-block" align="left" class="form-group">
+        <input type="text" class="form-control" placeholder="Search people" ng-model="search"/>
+    </div>
     <div style="margin-right: 10px" align="right">
         <a href="/add/person" class="btn btn-success btn-lg" style="background-color: #e74c3c;">
             <span class="fui-plus"></span> Add
@@ -16,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="person in people">
+                <tr ng-repeat="person in people | filter:search | orderBy:'name' ">
                     <td ng-if="person.name">{{person.name}}</td>
                     <td ng-if="person.name">
                         <div class="btn-group">

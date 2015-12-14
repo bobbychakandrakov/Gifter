@@ -10,11 +10,13 @@ app.controller('addPersonCtrl',['$scope','peopleService','$location',function($s
             $scope.stat = "Error";
             $scope.message = "Please, enter name!";
         }else{
-            peopleService.createPerson(name);
-            $('#successStat').css('display','block');
-            $('#errorStat').css('display','none');
-            $scope.stat = "Success";
-            $scope.message = "Person created!";
+            peopleService.createPerson(name,function(message){
+                $('#successStat').css('display','none');
+                $('#errorStat').css('display','block');
+                $scope.stat = "Error";
+                $scope.message = message;
+            });
+
             $('#create-person').val('');
         }
 
