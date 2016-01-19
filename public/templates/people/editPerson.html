@@ -1,0 +1,17 @@
+<div style="background-color: #EEE; height:100%;" align="center">
+    <!--<div ng-include="'templates/navbar.html'">-->
+    <!--</div>-->
+    <!--<div my-directive></div>-->
+    <h3 align="center">Edit person</h3>
+    <div class="alert alert-success" style="display: none;width: 50%;text-align: center" id="errorStat" align="center">
+        <strong>{{status}}!</strong> {{message}}
+    </div>
+    <form>
+        <div align="center" class="form-group">
+            <input type="text" value="{{person}}" placeholder="Name" class="form-control input-style" id="edit-person"/>
+            <br><br>
+            <button class="btn btn-block btn-lg btn-info my-style"  style="width: 150px;display: inline-block" ng-click="editPerson()">Edit</button>
+            <a class="btn btn-block btn-lg btn-info my-style"  style="width: 150px; display: inline-block;margin-top:0px" ng-click="cancel()">Cancel</a>
+        </div>
+    </form>
+</div>

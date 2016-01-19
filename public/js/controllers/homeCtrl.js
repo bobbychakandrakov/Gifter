@@ -2,4 +2,7 @@ app.controller('homeCtrl',['$scope','authService','$rootScope','$location',funct
 
     document.title = 'Home';
 
+    $scope.goToGifts = function () {
+      $location.path('/gifts');
+    };
 }]);

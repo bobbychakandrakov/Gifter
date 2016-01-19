@@ -1,19 +1,26 @@
 /**
  * Created by QuadCore on 11/24/2015.
  */
-app.factory('giftsService',function($location,$http){
+app.factory('giftsService',function($location,$http,$cookies,$q){
     const giftUrl = "http://localhost:8080/api/gift";
     return {
         createGift: function(name,price,id,x,y,img){
             $http({
                 headers:
                 {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'gifter-access-token':sessionStorage.getItem('gifter-access-token')
+                    'Content-Type': 'application/form-data',
+                    'gifter-access-token':$cookies.get('gifter-access-token')
                 },
                 method: 'POST',
                 url: giftUrl+'/'+id,
-                data:'name='+name+"&price="+price+"&x="+x+"&y="+y+"&file="+img
+                data:{
+                    name:name,
+                    price:price,
+                    id:id,
+                    x:x,
+                    y:y
+                },
+                file:img
             }).success(function(res){
                 if(res.success){
                     console.log("Gift created!");
@@ -22,21 +29,20 @@ app.factory('giftsService',function($location,$http){
                 }
             });
         },
-        getGift: function(id,call){
-            return $http({
+        getGift: function(id){
+            var deffered = $q.defer();
+            $http({
                 headers:
                 {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'gifter-access-token':sessionStorage.getItem('gifter-access-token')
+                    'gifter-access-token':$cookies.get('gifter-access-token')
                 },
                 method: 'GET',
                 url: giftUrl+'/'+id
             }).success(function(res){
-                if(res.success){
-                    call(res);
-                }else{
-                    console.log("Gift Creat ERROR!");
-                }
+                deffered.resolve(res);
+            }).error(function (res) {
+                deffered.reject(res.message);
             });
         },
         deleteGift: function (id) {
@@ -44,7 +50,7 @@ app.factory('giftsService',function($location,$http){
                 headers:
                 {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'gifter-access-token':sessionStorage.getItem('gifter-access-token')
+                    'gifter-access-token':$cookies.get('gifter-access-token')
                 },
                 method: 'DELETE',
                 url: giftUrl+'/'+id
@@ -61,7 +67,7 @@ app.factory('giftsService',function($location,$http){
                 headers:
                 {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'gifter-access-token':sessionStorage.getItem('gifter-access-token')
+                    'gifter-access-token':$cookies.get('gifter-access-token')
                 },
                 method: 'PUT',
                 url: giftUrl+'/'+id,
@@ -79,7 +85,7 @@ app.factory('giftsService',function($location,$http){
                 headers:
                 {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'gifter-access-token':sessionStorage.getItem('gifter-access-token')
+                    'gifter-access-token':$cookies.get('gifter-access-token')
                 },
                 method: 'GET',
                 url: giftUrl+'s'
@@ -95,7 +101,7 @@ app.factory('giftsService',function($location,$http){
                 headers:
                 {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'gifter-access-token':sessionStorage.getItem('gifter-access-token')
+                    'gifter-access-token':$cookies.get('gifter-access-token')
                 },
                 method: 'PUT',
                 url: giftUrl+'/name/'+id,
@@ -113,7 +119,7 @@ app.factory('giftsService',function($location,$http){
                 headers:
                 {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'gifter-access-token':sessionStorage.getItem('gifter-access-token')
+                    'gifter-access-token':$cookies.get('gifter-access-token')
                 },
                 method: 'PUT',
                 url: giftUrl+'/price/'+id,
@@ -131,7 +137,7 @@ app.factory('giftsService',function($location,$http){
                 headers:
                 {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'gifter-access-token':sessionStorage.getItem('gifter-access-token')
+                    'gifter-access-token':$cookies.get('gifter-access-token')
                 },
                 method: 'PUT',
                 url: giftUrl+'/owner/'+id,
@@ -149,7 +155,7 @@ app.factory('giftsService',function($location,$http){
                 headers:
                 {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'gifter-access-token':sessionStorage.getItem('gifter-access-token')
+                    'gifter-access-token':$cookies.get('gifter-access-token')
                 },
                 method: 'PUT',
                 url: giftUrl+'/address/'+id,

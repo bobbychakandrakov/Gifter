@@ -1,16 +1,24 @@
-app.controller('registerCtrl',['$scope','authService',function($scope,authService,$location){
+app.controller('registerCtrl',['$scope','authService','$location',function($scope,authService,$location){
 
     document.title = 'Register';
-    var userBool=false, passBool=false, confirmPassBool=false, emailBool=false;
+
+    $scope.haveNavbar = false;
+
+    var userBool=false,
+        passBool=false,
+        confirmPassBool=false,
+        emailBool=false;
+
     $scope.registerUser = function(){
         var user = $('#register-name').val(),
             pass = $('#register-pass').val(),
             confirmPass = $('#register-confirm-pass').val(),
             email = $('#register-email').val();
         if(userBool && passBool && confirmPass&& emailBool){
-            authService.registerUser(user,pass,email,function(message){
-                $('#errorReg').css('display','block');
-                $scope.message = message;
+            authService.registerUser(user,pass,email).then(function () {
+                $location.path('/');
+            },function(message){
+                errorHandler(message);
             });
         }else if(!userBool){
             errorHandler("Please, enter a valid username!");
@@ -81,5 +89,9 @@ app.controller('registerCtrl',['$scope','authService',function($scope,authServic
         $('#errorReg').css('display','block');
         $scope.message = message;
     }
+
+    $scope.goToLogin = function () {
+        $location.path('/');
+    };
 
 }]);

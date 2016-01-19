@@ -1,8 +1,8 @@
-<div class="row demo-row">
-    <div class="col-xs-12">
+<div class="row demo-row" ng-controller="navbarCtrl" ng-show="showNavbar()">
+    <div class="col-xl-12">
         <nav class="navbar navbar-inverse navbar-embossed nav-style" role="navigation">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01" style="padding-right:35px">
                     <span class="sr-only">Toggle navigation</span>
                 </button>
                 <a class="navbar-brand" href="/home" id="home">Gifter</a>
@@ -12,14 +12,9 @@
                     <li><a href="/gifts" id="gifts">Gifts</a></li>
                     <li><a href="/people" id="people">People</a></li>
                     <li><a href="/profile" id="profile">Profile</a></li>
-                    <li><a href="/" onclick="func()" id="logout"><span class="fui-exit"></span></a></li>
+                    <li><a href="/" ng-click="logOut()" id="logout"><span class="fui-exit"></span></a></li>
                 </ul>
             </div>
         </nav>
     </div>
 </div>
-<script>
-    function func(){
-        sessionStorage.clear();
-    }
-</script>

@@ -1,0 +1,37 @@
+<div style="background-color: #EEE; height:100%;" align="center">
+    <h3 align="center">Add gift</h3>
+    <div class="alert alert-success" style="display: none;width: 50%;text-align: center" id="successStat" align="center">
+        <strong>{{status}}!</strong> {{message}}
+    </div><div class="alert alert-danger" style="display: none;width: 50%;text-align: center" id="errorStat" align="center">
+        <strong>{{status}}!</strong> {{message}}
+    </div>
+    <div align="center" class="form-group">
+        <input type="text" value placeholder="Name" class="form-control input-style" id="gift-name"/>
+        <br><br>
+        <input type="number" value placeholder="Price" class="form-control input-style" id="gift-price"/>
+        <br><br>
+        <div  align="center" style="width: 300px;display: inline-block">
+            <select name="inverse-dropdown-searchfield" class="form-control select select-default mrs mbm" data-toggle="select" id="dropdown-person">
+                <option value="0" selected>Select person</option>
+                <option ng-repeat="person in people" value="{{person._id}}">{{person.name}}</option>
+            </select>
+        </div>
+        <br><br>
+        <div id="googleMap" style="width:500px;height:300px;"></div>
+        <br/>
+        <div align="center" width="100%">
+            <input type="file" name="file123" id="file-1" />
+        </div>
+        <br/>
+        <button class="btn btn-block btn-lg btn-info my-style"  style="width: 150px;display: inline-block" ng-click="addGift()">Add</button>
+        <button class="btn btn-block btn-lg btn-info my-style"  style="width: 150px; display: inline-block;margin-top:0px" ng-click="cancel()">Cancel</button>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('select[name="inverse-dropdown"], select[name="inverse-dropdown-optgroup"], select[name="inverse-dropdown-disabled"]').select2({dropdownCssClass: 'select-inverse-dropdown'});
+
+        $('select[name="searchfield"]').select2({dropdownCssClass: 'show-select-search'});
+        $('select[name="inverse-dropdown-searchfield"]').select2({dropdownCssClass: 'select-inverse-dropdown show-select-search'});
+    });
+</script>

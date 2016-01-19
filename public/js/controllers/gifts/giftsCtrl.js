@@ -1,8 +1,11 @@
-app.controller('giftsCtrl',['$scope','peopleService','$location','giftsService',function($scope,peopleService,$location,giftsService){
+app.controller('giftsCtrl',['$scope','peopleService','$location','giftsService','$window',function($scope,peopleService,$location,giftsService,$window){
 
     document.title = 'Gifts';
+
     $scope.pageSize = 5;
+
     $scope.currentPage = 1;
+
     var len;
 
     $scope.orderByName = function () {
@@ -31,6 +34,7 @@ app.controller('giftsCtrl',['$scope','peopleService','$location','giftsService',
 
     $scope.gifts = giftsService.getGifts().then(function(data){
         $scope.gifts = data.data.gift;
+        $scope.img = $window.atob($scope.gifts[27].img.data.data);
         len = $scope.gifts.length;
     });
 
@@ -54,6 +58,14 @@ app.controller('giftsCtrl',['$scope','peopleService','$location','giftsService',
 
     $scope.showMessage = function(){
         return !!($scope.gifts === undefined || $scope.gifts.length == 0 || len == 0);
+    };
+
+    $scope.goToHome = function () {
+        $location.path('/home');
+    };
+
+    $scope.goToPeople = function () {
+        $location.path('/people');
     };
 
 }]);

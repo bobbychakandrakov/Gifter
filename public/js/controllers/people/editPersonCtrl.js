@@ -1,18 +1,20 @@
 app.controller('editPersonCtrl',['$scope','peopleService','$location','$routeParams',function($scope,peopleService,$location,$routeParams){
 
-    document.title = 'Edit person';
-
     var id = $routeParams.id;
 
-    $scope.person = peopleService.getPerson(id).then(getData);
-
-    function getData(data){
-        $scope.person = data.data.name;
-    }
+    $scope.person = peopleService.getPerson(id).then(function (data) {
+        $scope.person = data;
+        document.title = $scope.person;
+    });
 
     $scope.editPerson = function () {
-        peopleService.updataPerson(id,$('#edit-person').val());
-        $location.path('/people');
+        var name = $('#edit-person').val();
+        peopleService.updataPerson(id,name).then(function () {
+            $location.path('/people');
+        }, function (message) {
+            console.log(message);
+        });
+
     };
 
     $scope.cancel = function(){

@@ -1,4 +1,4 @@
-app.controller('loginCtrl',['$scope','authService',function($scope,authService){
+app.controller('loginCtrl',['$scope','authService','$location',function($scope,authService,$location){
 
     document.title = 'Login';
 
@@ -6,7 +6,9 @@ app.controller('loginCtrl',['$scope','authService',function($scope,authService){
         var user = $('#login-name').val(),
             pass = $('#login-pass').val();
         if(user !== '' && pass !== '' && user.length >= 6 && pass.length >= 6){
-            authService.logIn(user,pass,function(message){
+            authService.logIn(user,pass).then(function(){
+                $location.path('/home');
+            }, function (message) {
                 loginErrorHandle(message);
             });
         }else if(user === ''){
@@ -22,5 +24,10 @@ app.controller('loginCtrl',['$scope','authService',function($scope,authService){
         $scope.message = message;
         $('#errorReg').css('display','block');
     }
+
+
+    $scope.goToRegister = function () {
+        $location.path('/register');
+    };
 
 }]);

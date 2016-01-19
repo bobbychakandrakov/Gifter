@@ -1,0 +1,35 @@
+<div style="background-color: #EEE; height:100%" align="center" ng-swipe-right="goToPeople()">
+    <br/>
+    <h3 align="center">Update your profile</h3>
+    <div class="alert alert-success" style="display: none;width: 50%;text-align: center" id="successStat" align="center">
+        <strong>{{status}}!</strong> {{message}}
+    </div>
+    <div class="alert alert-danger" style="display: none;width: 50%;text-align: center" id="errorStat" align="center">
+        <strong>{{status}}!</strong> {{message}}
+    </div>
+    <div align="center" class="form-group">
+        <h4 id="errorChange"></h4>
+        <input type="text" value placeholder="Username" class="form-control input-style" id="new-username"/>
+        <div class="btn-group" ng-click="updateUsername()" style="height: 42px">
+            <a class="btn btn-primary">
+                <span class="fui-new"></span>
+            </a>
+        </div>
+        <br/><br/>
+        <input type="password" value placeholder="Password" class="form-control input-style"  id="new-password"/>
+        <div class="btn-group" ng-click="updatePassword()" style="height: 42px">
+            <a class="btn btn-primary">
+                <span class="fui-new"></span>
+            </a>
+        </div>
+        <br/><br/>
+        <input type="text" value placeholder="Email" class="form-control input-style"  id="new-email"/>
+        <div class="btn-group" ng-click="updateEmail()" style="height: 42px">
+            <a class="btn btn-primary">
+                <span class="fui-new"></span>
+            </a>
+        </div>
+        <br/><br/>
+            <button class="btn btn-block btn-lg btn-info my-style"  style="width: 25%" ng-click="updateProfile()" id="update-all">Update all</button>
+    </div>
+</div>

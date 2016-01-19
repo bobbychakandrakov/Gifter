@@ -1,0 +1,46 @@
+<div style="background-color: #EEE; height:100%" ng-swipe-left="goToPeople()" ng-swipe-right="goToHome()">
+    <br/>
+    <h3 align="center">Gifts</h3>
+    <div align="left" class="col-md-4">
+        <input type="text" class="form-control" placeholder="Search gift" ng-model="search"/>
+    </div>
+    <div class="col-md-4">
+        
+    </div>
+    <div class="col-md-4" align="right">
+        <a href="/add/gift" class="btn btn-success btn-lg" style="background-color: #e74c3c;">
+            <span class="fui-plus"></span> Add
+        </a>
+    </div>
+    <div align="center">
+        <h3 ng-show="showMessage()">No gifts</h3>
+        <table class="table table-hover" id="giftsTable" ng-show="showTable()">
+            <thead>
+            <tr>
+                <th ng-click="orderByName()">Name</th>
+                <th ng-click="orderByPrice()">Price</th>
+                <th ng-click="orderByOwner()">For</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="gift in gifts | toArray:false | filter:search | orderBy:order | startFrom:(currentPage - 1) * pageSize | limitTo: pageSize">
+                <td>{{gift.name}}</td>
+                <td>{{gift.price}}</td>
+                <td>{{gift.ownerName}}</td>
+                <td><img ng-src="data:image/jpeg;base64,{{img}}" alt=""/></td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-primary" href="/gift/{{gift._id}}">
+                            <span class="fui-eye"></span>
+                        </a>
+                        <a class="btn btn-primary delete" ng-click="deleteGift(gift._id)">
+                            <span class="fui-trash"></span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <uib-pagination total-items="gifts.length" ng-model="currentPage" items-per-page="pageSize" ng-hide="(gifts | toArray:false | filter:search).length == 0"></uib-pagination>
+    </div>
+</div>

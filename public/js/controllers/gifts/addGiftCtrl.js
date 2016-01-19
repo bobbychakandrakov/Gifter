@@ -1,6 +1,9 @@
 app.controller('addGiftCtrl',['$scope','giftsService','$location','peopleService','$timeout',function($scope,giftsService,$location,peopleService,$timeout){
+
     var marker;
+
     document.title = 'Add gift';
+
     $timeout(function(){
         var map;
 
@@ -55,14 +58,16 @@ app.controller('addGiftCtrl',['$scope','giftsService','$location','peopleService
             $('#errorStat').css('display','none');
             $scope.status = "Success";
             $scope.message = "Gift created!";
-            giftsService.createGift(name,price,personId,marker.getPosition().lat(),marker.getPosition().lng(),img);
+            //giftsService.createGift(name,price,personId,marker.getPosition().lat(),marker.getPosition().lng(),img);
         }
+        var selectedFile = $('#file-1')[0].files[0].val();
+        giftsService.createGift(name,price,personId,marker.getPosition().lat(),marker.getPosition().lng(),selectedFile);
     };
 
     $scope.people = peopleService.getPeople().then(getData);
 
     function getData(data){
-        $scope.people = data.data.people;
+        $scope.people = data;
     }
 
     $scope.cancel = function(){

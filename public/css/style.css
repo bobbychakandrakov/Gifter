@@ -148,5 +148,20 @@ a:focus{
     background-color: #e74c3c;
 }
 div.ng-enter{
-    animation:bounceIn 1s;
+    animation:fadeIn 1s;
+}
+
+div.container{
+    margin-top: -30px;
+}
+
+#person-name:hover{
+    cursor: pointer;
+}
+.cc_container{
+    background-color: #eee;
+}
+
+.cc_container .cc_btn, .cc_container .cc_btn:visited{
+    background-color: #e74c3c;
 }

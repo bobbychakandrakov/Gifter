@@ -7,6 +7,14 @@ var User   = require('./models/user'); // get user mongoose model
 var Person   = require('./models/person'); // get user mongoose model
 var Gift   = require('./models/gift'); // get user mongoose model
 var mongoose=require('mongoose');
+var fs = require("fs");
+var formidable = require('formidable');
+var multer  = require('multer');
+var multipart = require('connect-multiparty');
+var btoa = require('btoa');
+var multipartMiddleware = multipart();
+var atob = require('atob');
+var base64 = require('node-base64-image');
 var app=express();
 // =========================================================================================
 // configuration
@@ -482,7 +490,7 @@ apiRoutes.post('/person', function(req, res)
                     }
                     else {
                         if(person){
-                            res.status(404)
+                            res.status(404);
                             res.json
                             (
                                 {
@@ -725,7 +733,7 @@ apiRoutes.delete('/person/:id',function(req, res)
     });
 });
 //===============Gifts=======================================
-apiRoutes.post('/gift/:id', function(req, res)
+apiRoutes.post('/gift/:id',multipartMiddleware, function(req, res)
 {
     User.findOne({token:req.headers['gifter-access-token']}, function (err, user)
     {
@@ -760,9 +768,11 @@ apiRoutes.post('/gift/:id', function(req, res)
                     }
                     if(person)
                     {
-                        var file = req.files.file;
-                        var tempPath = file.path;
                         var giftModel = new Gift();
+                        //var file = req.body.avatar;
+                        //var tempPath = file.path;
+                        //console.log(file);
+                        //var giftModel = new Gift();
                         giftModel.name = req.body.name;
                         giftModel.price = req.body.price;
                         giftModel.owner_id = req.params.id;
@@ -770,7 +780,32 @@ apiRoutes.post('/gift/:id', function(req, res)
                         giftModel.y=req.body.y;
                         giftModel.ownerName=person.name;
                         giftModel.username=user.username;
-                        giftModel.img.data =  fs.readFileSync(tempPath);
+                        //var form = new formidable.IncomingForm();
+                        //form.parse(req, function(err, fields, files) {
+
+                        // convert binary data to base64 encoded string
+                        var options = {string: false};
+                        var file = req.files.file;
+                        var tempPath = file.path;
+                        var img = btoa(file);
+                        base64.base64encoder(tempPath, options, function (err, image) {
+                            if (err) {
+                                console.log(err);
+                            }
+                            console.log(image);
+                        });
+
+                        //    //giftModel.name = fields.name;
+                        //    //giftModel.price = fields.price;
+                        //    //giftModel.owner_id = fields.id;
+                        //    //giftModel.x=fields.x;
+                        //    //giftModel.y=fields.y;
+                        //    //giftModel.ownerName=person.name;
+                        //    //giftModel.username=user.username;
+                        //    giftModel.img.data =  fs.readFileSync(tempPath);
+                        //    giftModel.img.contentType = file.type;
+                        //});
+                        giftModel.img.data =  img;
                         giftModel.img.contentType = file.type;
                         giftModel.save(function (err, gift)
                             {
@@ -1206,7 +1241,8 @@ apiRoutes.get( '/gift/:id', function( req, res ) {
                         name:gift.name,
                         price:gift.price,
                         x:gift.x,
-                        y:gift.y
+                        y:gift.y,
+                        img:gift.img
                     }
                 );
             }

@@ -1,33 +1,33 @@
 var app;
-app = angular.module('gifter', ['ngResource', 'ngRoute','ngAnimate', 'ui.bootstrap'])
+app = angular.module('gifter', ['ngResource', 'ngRoute','ngAnimate', 'ui.bootstrap','ngTouch','ngCookies'])
     .config(function ($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true).hashPrefix('!');// $locationProvide html5Mode -> true (no #)
         $routeProvider.when('/', {
             resolve: {
-                'check': function ($location) {
-                    if (sessionStorage.getItem('gifter-access-token')) {
+                'check': function ($cookies,$location) {
+                    if ($cookies.get('gifter-access-token')) {
                         $location.path('/home');
                     }
                 }
             },
-            templateUrl: "templates/login.html",
+            templateUrl: "templates/auth/login.html",
             controller: "loginCtrl"
         })
             .when('/register', {
                 resolve: {
-                    'check': function ($location) {
-                        if (sessionStorage.getItem('gifter-access-token')) {
+                    'check': function ($cookies,$location) {
+                        if ($cookies.get('gifter-access-token')) {
                             $location.path('/home');
                         }
                     }
                 },
-                templateUrl: "templates/register.html",
+                templateUrl: "templates/auth/register.html",
                 controller: 'registerCtrl'
             })
             .when('/home', {
                 resolve: {
-                    'check': function ($location) {
-                        if (!sessionStorage.getItem('gifter-access-token')) {
+                    'check': function ($cookies,$location) {
+                        if (!$cookies.get('gifter-access-token')) {
                             $location.path('/');
                         }
                     }
@@ -37,84 +37,80 @@ app = angular.module('gifter', ['ngResource', 'ngRoute','ngAnimate', 'ui.bootstr
             })
             .when('/profile', {
                 resolve: {
-                    'check': function ($location) {
-                        if (!sessionStorage.getItem('gifter-access-token')) {
+                    'check': function ($cookies,$location) {
+                        if (!$cookies.get('gifter-access-token')) {
                             $location.path('/');
                         }
                     }
                 },
-                templateUrl: "templates/editProfile.html",
+                templateUrl: "templates/auth/editProfile.html",
                 controller: 'editProfileCtrl'
             })
             .when('/add/person', {
                 resolve: {
-                    'check': function ($location) {
-                        if (!sessionStorage.getItem('gifter-access-token')) {
+                    'check': function ($cookies,$location) {
+                        if (!$cookies.get('gifter-access-token')) {
                             $location.path('/');
                         }
                     }
                 },
-                templateUrl: "templates/addPerson.html",
+                templateUrl: "templates/people/addPerson.html",
                 controller: 'addPersonCtrl'
             })
             .when('/people', {
                 resolve: {
-                    'check': function ($location) {
-                        if (!sessionStorage.getItem('gifter-access-token')) {
+                    'check': function ($cookies,$location) {
+                        if (!$cookies.get('gifter-access-token')) {
                             $location.path('/');
                         }
                     }
                 },
-                templateUrl: "templates/people.html",
+                templateUrl: "templates/people/people.html",
                 controller: 'peopleCtrl'
             })
             .when('/person/:id', {
                 resolve: {
-                    'check': function ($location) {
-                        if (!sessionStorage.getItem('gifter-access-token')) {
+                    'check': function ($cookies,$location) {
+                        if (!$cookies.get('gifter-access-token')) {
                             $location.path('/');
                         }
                     }
                 },
-                templateUrl: "templates/editPerson.html",
+                templateUrl: "templates/people/editPerson.html",
                 controller: 'editPersonCtrl'
             })
             .when('/gifts', {
                 resolve: {
-                    'check': function ($location) {
-                        if (!sessionStorage.getItem('gifter-access-token')) {
+                    'check': function ($cookies,$location) {
+                        if (!$cookies.get('gifter-access-token')) {
                             $location.path('/');
                         }
                     }
                 },
-                templateUrl: "templates/gifts.html",
+                templateUrl: "templates/gifts/gifts.html",
                 controller: 'giftsCtrl'
             })
             .when('/add/gift', {
                 resolve: {
-                    'check': function ($location) {
-                        if (!sessionStorage.getItem('gifter-access-token')) {
+                    'check': function ($cookies,$location) {
+                        if (!$cookies.get('gifter-access-token')) {
                             $location.path('/');
                         }
                     }
                 },
-                templateUrl: "templates/addGift.html",
+                templateUrl: "templates/gifts/addGift.html",
                 controller: 'addGiftCtrl'
             })
             .when('/gift/:id', {
                 resolve: {
-                    'check': function ($location) {
-                        if (!sessionStorage.getItem('gifter-access-token')) {
+                    'check': function ($cookies,$location) {
+                        if (!$cookies.get('gifter-access-token')) {
                             $location.path('/');
                         }
                     }
                 },
-                templateUrl: "templates/editGift.html",
+                templateUrl: "templates/gifts/editGift.html",
                 controller: 'editGiftCtrl'
             })
             .otherwise({redirectTo: '/'});
-    }).filter('startFrom', function () {
-        return function (data,start) {
-            return data.slice(start);
-        }
     });
