@@ -33,7 +33,7 @@ var GiftSchema = mongoose.model('Gift', new Schema({
         type:String
     },
     img: {
-        data: Buffer,
+        data: String,
         contentType: String
     }
 

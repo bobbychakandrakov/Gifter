@@ -165,3 +165,11 @@ div.container{
 .cc_container .cc_btn, .cc_container .cc_btn:visited{
     background-color: #e74c3c;
 }
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+    vertical-align: middle;
+}
+
+.img-responsive .img-thumbnail{
+    width: 120px;
+    height: 140px;
+}

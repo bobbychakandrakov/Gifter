@@ -34,8 +34,7 @@ app.controller('giftsCtrl',['$scope','peopleService','$location','giftsService',
 
     $scope.gifts = giftsService.getGifts().then(function(data){
         $scope.gifts = data.data.gift;
-        $scope.img = $window.atob($scope.gifts[27].img.data.data);
-        len = $scope.gifts.length;
+        $scope.img = $scope.gifts[0].img.data;
     });
 
     $scope.deleteGift = function(id){

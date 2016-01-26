@@ -45,7 +45,7 @@ app.controller('addGiftCtrl',['$scope','giftsService','$location','peopleService
         var personId = drop.options[drop.selectedIndex].value;
         var name =$('#gift-name').val(),
             price =$('#gift-price').val(),
-            img = document.getElementById('file-1').files[0];
+            file = document.getElementById('file-1').files[0];
         if(name === "" || price === "" || marker === undefined || !validatePrice(price)){
             $('#errorStat').css('display','block');
             $('#successStat').css('display','none');
@@ -60,8 +60,16 @@ app.controller('addGiftCtrl',['$scope','giftsService','$location','peopleService
             $scope.message = "Gift created!";
             //giftsService.createGift(name,price,personId,marker.getPosition().lat(),marker.getPosition().lng(),img);
         }
-        var selectedFile = $('#file-1')[0].files[0].val();
-        giftsService.createGift(name,price,personId,marker.getPosition().lat(),marker.getPosition().lng(),selectedFile);
+        var reader = new FileReader();
+        var img;
+        reader.onload = function(readerEvt) {
+            var binaryString = readerEvt.target.result;
+            img = btoa(binaryString);
+            giftsService.createGift(name,price,personId,marker.getPosition().lat(),marker.getPosition().lng(),img,"jpg");
+        };
+
+        reader.readAsBinaryString(file);
+        //var selectedFile = $('#file-1')[0].files[0].val();
     };
 
     $scope.people = peopleService.getPeople().then(getData);

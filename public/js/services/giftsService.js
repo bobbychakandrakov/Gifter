@@ -4,29 +4,20 @@
 app.factory('giftsService',function($location,$http,$cookies,$q){
     const giftUrl = "http://localhost:8080/api/gift";
     return {
-        createGift: function(name,price,id,x,y,img){
+        createGift: function(name,price,id,x,y,img,type){
             $http({
                 headers:
                 {
-                    'Content-Type': 'application/form-data',
+                    'Content-Type': 'application/x-www-form-urlencoded',
                     'gifter-access-token':$cookies.get('gifter-access-token')
                 },
                 method: 'POST',
-                url: giftUrl+'/'+id,
-                data:{
-                    name:name,
-                    price:price,
-                    id:id,
-                    x:x,
-                    y:y
-                },
-                file:img
+                url: giftUrl+"/"+id,
+                data:"name="+name+"&price="+price+"&x="+x+"&y="+y+"&imgData="+img+"&type="+type
             }).success(function(res){
-                if(res.success){
-                    console.log("Gift created!");
-                }else{
-                    console.log("Gift Creat ERROR!");
-                }
+
+            }).error(function(err){
+                console.log(err);
             });
         },
         getGift: function(id){

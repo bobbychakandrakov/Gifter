@@ -15,6 +15,7 @@ var btoa = require('btoa');
 var multipartMiddleware = multipart();
 var atob = require('atob');
 var base64 = require('node-base64-image');
+var FileReader = require('filereader');
 var app=express();
 // =========================================================================================
 // configuration
@@ -733,7 +734,7 @@ apiRoutes.delete('/person/:id',function(req, res)
     });
 });
 //===============Gifts=======================================
-apiRoutes.post('/gift/:id',multipartMiddleware, function(req, res)
+apiRoutes.post('/gift/:id', function(req, res)
 {
     User.findOne({token:req.headers['gifter-access-token']}, function (err, user)
     {
@@ -769,10 +770,6 @@ apiRoutes.post('/gift/:id',multipartMiddleware, function(req, res)
                     if(person)
                     {
                         var giftModel = new Gift();
-                        //var file = req.body.avatar;
-                        //var tempPath = file.path;
-                        //console.log(file);
-                        //var giftModel = new Gift();
                         giftModel.name = req.body.name;
                         giftModel.price = req.body.price;
                         giftModel.owner_id = req.params.id;
@@ -780,33 +777,8 @@ apiRoutes.post('/gift/:id',multipartMiddleware, function(req, res)
                         giftModel.y=req.body.y;
                         giftModel.ownerName=person.name;
                         giftModel.username=user.username;
-                        //var form = new formidable.IncomingForm();
-                        //form.parse(req, function(err, fields, files) {
-
-                        // convert binary data to base64 encoded string
-                        var options = {string: false};
-                        var file = req.files.file;
-                        var tempPath = file.path;
-                        var img = btoa(file);
-                        base64.base64encoder(tempPath, options, function (err, image) {
-                            if (err) {
-                                console.log(err);
-                            }
-                            console.log(image);
-                        });
-
-                        //    //giftModel.name = fields.name;
-                        //    //giftModel.price = fields.price;
-                        //    //giftModel.owner_id = fields.id;
-                        //    //giftModel.x=fields.x;
-                        //    //giftModel.y=fields.y;
-                        //    //giftModel.ownerName=person.name;
-                        //    //giftModel.username=user.username;
-                        //    giftModel.img.data =  fs.readFileSync(tempPath);
-                        //    giftModel.img.contentType = file.type;
-                        //});
-                        giftModel.img.data =  img;
-                        giftModel.img.contentType = file.type;
+                        giftModel.img.data= req.body.imgData;
+                        giftModel.img.contentType = req.body.type;
                         giftModel.save(function (err, gift)
                             {
                                 if (err)
