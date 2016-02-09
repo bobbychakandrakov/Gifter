@@ -35,6 +35,7 @@ app.factory('giftsService',function($location,$http,$cookies,$q){
             return deffered.promise;
         },
         deleteGift: function (id) {
+            var deffered = $q.defer();
             $http({
                 headers:
                 {
@@ -44,12 +45,11 @@ app.factory('giftsService',function($location,$http,$cookies,$q){
                 method: 'DELETE',
                 url: giftUrl+'/'+id
             }).success(function(res){
-                if(res.success){
-                    console.log("Gift deleted!");
-                }else{
-                    console.log("Gift delete ERROR!");
-                }
+                deffered.resolve();
+            }).error(function(err){
+                deffered.reject(err);
             });
+            return deffered.promise;
         },
         updateGift: function(name,price,id,owner,x,y){
             return $http({

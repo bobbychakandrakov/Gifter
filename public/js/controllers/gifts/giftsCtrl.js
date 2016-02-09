@@ -6,7 +6,9 @@ app.controller('giftsCtrl',['$scope','peopleService','$location','giftsService',
 
     $scope.currentPage = 1;
 
-    var len;
+    var len,
+        giftsLen,
+        gifts;
 
     $scope.orderByName = function () {
         if($scope.order === 'name'){
@@ -34,6 +36,10 @@ app.controller('giftsCtrl',['$scope','peopleService','$location','giftsService',
 
     giftsService.getGifts().then(function(data){
         $scope.gifts = data.gift;
+        gifts = data.gift;
+        len = data.gift.length;
+        giftsLen = data.gift.length;
+        console.log(data);
     },function(err){
         console.log(err);
     });
@@ -42,11 +48,18 @@ app.controller('giftsCtrl',['$scope','peopleService','$location','giftsService',
 
         bootbox.confirm("Are you sure you want to delete this gift?", function (answer) {
             if(answer === true){
-                giftsService.deleteGift(id);
-                len--;
-                $scope.gifts = giftsService.getGifts().then(function(data){
-                    $scope.gifts = data.gift;
-                    len = $scope.gifts.length;
+                giftsService.deleteGift(id).then(function(){
+                    for(var i =0 ; i < giftsLen; i++){
+                        if(id == gifts[i]._id){
+                            gifts.splice(i,1);
+                            giftsLen--;
+                            len--;
+                            break;
+                        }
+                    }
+                    $scope.gifts = gifts;
+                },function(err){
+                    console.log(err);
                 });
             }
         });
