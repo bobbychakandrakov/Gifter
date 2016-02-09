@@ -4,20 +4,17 @@
 app.factory('giftsService',function($location,$http,$cookies,$q){
     const giftUrl = "http://localhost:8080/api/gift";
     return {
-        createGift: function(name,price,id,x,y,img,type){
-            $http({
-                headers:
-                {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'gifter-access-token':$cookies.get('gifter-access-token')
-                },
-                method: 'POST',
-                url: giftUrl+"/"+id,
-                data:"name="+name+"&price="+price+"&x="+x+"&y="+y+"&imgData="+img+"&type="+type
-            }).success(function(res){
-
-            }).error(function(err){
-                console.log(err);
+        createGift: function(data){
+            var fd = new FormData();
+            for(var key in data){
+                fd.append(key, data[key]);
+            }
+            $http.post(giftUrl+"/"+data.id, fd, {
+            transformRequest: angular.indentity,
+            headers: { 
+                'Content-Type': undefined,
+                'gifter-access-token':$cookies.get('gifter-access-token') 
+                }
             });
         },
         getGift: function(id){
@@ -31,10 +28,11 @@ app.factory('giftsService',function($location,$http,$cookies,$q){
                 method: 'GET',
                 url: giftUrl+'/'+id
             }).success(function(res){
-                deffered.resolve(res);
+                deffered.resolve(res.data);
             }).error(function (res) {
                 deffered.reject(res.message);
             });
+            return deffered.promise;
         },
         deleteGift: function (id) {
             $http({
@@ -54,24 +52,6 @@ app.factory('giftsService',function($location,$http,$cookies,$q){
             });
         },
         updateGift: function(name,price,id,owner,x,y){
-            $http({
-                headers:
-                {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'gifter-access-token':$cookies.get('gifter-access-token')
-                },
-                method: 'PUT',
-                url: giftUrl+'/'+id,
-                data:'name='+name+"&price="+price+'&owner='+owner+"&x="+x+"&y="+y
-            }).success(function(res){
-                if(res.success){
-                    console.log("Gift updated!");
-                }else{
-                    console.log("Gift Creat ERROR!");
-                }
-            });
-        },
-        getGifts: function(){
             return $http({
                 headers:
                 {
@@ -86,6 +66,23 @@ app.factory('giftsService',function($location,$http,$cookies,$q){
                     console.log("Gift Creat ERROR!");
                 }
             });
+        },
+        getGifts: function(){
+            var deffered = $q.defer();
+            $http({
+                headers:
+                {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'gifter-access-token':$cookies.get('gifter-access-token')
+                },
+                method: 'GET',
+                url: giftUrl+'s'
+            }).success(function(res){
+                deffered.resolve(res);
+            }).error(function(err){
+                deffered.reject(err);
+            });
+            return deffered.promise;
         },
         updateGiftName:function(id,name){
             $http({

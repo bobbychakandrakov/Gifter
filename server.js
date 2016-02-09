@@ -734,7 +734,7 @@ apiRoutes.delete('/person/:id',function(req, res)
     });
 });
 //===============Gifts=======================================
-apiRoutes.post('/gift/:id', function(req, res)
+apiRoutes.post('/gift/:id', multipartMiddleware, function(req, res)
 {
     User.findOne({token:req.headers['gifter-access-token']}, function (err, user)
     {
@@ -777,9 +777,17 @@ apiRoutes.post('/gift/:id', function(req, res)
                         giftModel.y=req.body.y;
                         giftModel.ownerName=person.name;
                         giftModel.username=user.username;
-                        giftModel.img.data= req.body.imgData;
-                        giftModel.img.contentType = req.body.type;
-                        giftModel.save(function (err, gift)
+                        var file = req.files.file;
+                        var reader = new FileReader();
+				        var img;
+				        reader.readAsBinaryString(file);
+				        reader.onload = function(readerEvt) {
+				            var binaryString = readerEvt.target.result;
+				            img = btoa(binaryString);
+				            img = encodeURIComponent(img);
+				            giftModel.img.data= img;
+				            giftModel.img.contentType = req.body.type;
+				            giftModel.save(function (err, gift)
                             {
                                 if (err)
                                 {
@@ -822,6 +830,51 @@ apiRoutes.post('/gift/:id', function(req, res)
                                 }
                             }
                         );
+				        };
+                        
+                        // giftModel.save(function (err, gift)
+                        //     {
+                        //         if (err)
+                        //         {
+                        //             res.status(404);
+                        //             res.json
+                        //             (
+                        //                 {
+                        //                     success: false,
+                        //                     message: "Error occured: " + err
+                        //                 }
+                        //             );
+                        //         }
+                        //         else
+                        //         {
+                        //             gift.save(function (err, gift1)
+                        //             {
+                        //                 if (err)
+                        //                 {
+                        //                     res.status(404);
+                        //                     res.json
+                        //                     (
+                        //                         {
+                        //                             success: false,
+                        //                             message: "Error occured: " + err
+                        //                         }
+                        //                     );
+                        //                 }
+                        //                 else
+                        //                 {
+                        //                     res.status(201);
+                        //                     res.json
+                        //                     (
+                        //                         {
+                        //                             success: true
+                        //                         }
+                        //                     );
+                        //                 }
+
+                        //             });
+                        //         }
+                        //     }
+                        // );
                     }
                     else
                     {

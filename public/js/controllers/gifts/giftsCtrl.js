@@ -32,9 +32,10 @@ app.controller('giftsCtrl',['$scope','peopleService','$location','giftsService',
         }
     };
 
-    $scope.gifts = giftsService.getGifts().then(function(data){
-        $scope.gifts = data.data.gift;
-        $scope.img = $scope.gifts[0].img.data;
+    giftsService.getGifts().then(function(data){
+        $scope.gifts = data.gift;
+    },function(err){
+        console.log(err);
     });
 
     $scope.deleteGift = function(id){
@@ -44,7 +45,7 @@ app.controller('giftsCtrl',['$scope','peopleService','$location','giftsService',
                 giftsService.deleteGift(id);
                 len--;
                 $scope.gifts = giftsService.getGifts().then(function(data){
-                    $scope.gifts = data.data.gift;
+                    $scope.gifts = data.gift;
                     len = $scope.gifts.length;
                 });
             }

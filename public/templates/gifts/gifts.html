@@ -27,7 +27,7 @@
                 <td>{{gift.name}}</td>
                 <td>{{gift.price}}</td>
                 <td>{{gift.ownerName}}</td>
-                <td><img ng-src="data:image/jpg;base64,{{img}}" alt="no image"/></td>
+                <td ng-if="gift.img.data"><img ng-src="data:image/png;base64,{{gift.img.data}}" alt="no image" style="width:200px;height200px;" /></td>
                 <td>
                     <div class="btn-group">
                         <a class="btn btn-primary" href="/gift/{{gift._id}}">

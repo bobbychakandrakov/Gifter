@@ -3,6 +3,7 @@ app.controller('addGiftCtrl',['$scope','giftsService','$location','peopleService
     var marker;
 
     document.title = 'Add gift';
+    $scope.gift = {};
 
     $timeout(function(){
         var map;
@@ -42,34 +43,24 @@ app.controller('addGiftCtrl',['$scope','giftsService','$location','peopleService
 
     $scope.addGift = function(){
         var drop = document.getElementById("dropdown-person");
-        var personId = drop.options[drop.selectedIndex].value;
-        var name =$('#gift-name').val(),
-            price =$('#gift-price').val(),
-            file = document.getElementById('file-1').files[0];
-        if(name === "" || price === "" || marker === undefined || !validatePrice(price)){
+        $scope.gift.id  = drop.options[drop.selectedIndex].value;
+        $scope.gift.name =$('#gift-name').val(),
+            $scope.gift.price =$('#gift-price').val(),
+            $scope.gift.type = "jpg";
+        if($scope.gift.name === "" || $scope.gift.price === "" || marker === undefined){
             $('#errorStat').css('display','block');
             $('#successStat').css('display','none');
             $scope.status = "Error";
             $scope.message = "Please , enter information about the gift!";
         }
         else{
-            price = accounting.formatMoney(price);
+            $scope.gift.price = accounting.formatMoney($scope.gift.price);
             $('#successStat').css('display','block');
             $('#errorStat').css('display','none');
             $scope.status = "Success";
             $scope.message = "Gift created!";
-            //giftsService.createGift(name,price,personId,marker.getPosition().lat(),marker.getPosition().lng(),img);
         }
-        var reader = new FileReader();
-        var img;
-        reader.onload = function(readerEvt) {
-            var binaryString = readerEvt.target.result;
-            img = btoa(binaryString);
-            giftsService.createGift(name,price,personId,marker.getPosition().lat(),marker.getPosition().lng(),img,"jpg");
-        };
-
-        reader.readAsBinaryString(file);
-        //var selectedFile = $('#file-1')[0].files[0].val();
+        giftsService.createGift($scope.gift);
     };
 
     $scope.people = peopleService.getPeople().then(getData);
